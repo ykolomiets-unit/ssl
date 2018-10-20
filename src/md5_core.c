@@ -62,13 +62,13 @@ void		md5_final
 	t_byte digest[16]
 )
 {
-	static t_byte padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	static t_byte	padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0 };
-	t_byte		bits_amount[8];
-	uint32_t	index;
-	uint32_t	pad_len;
+	t_byte			bits_amount[8];
+	uint32_t		index;
+	uint32_t		pad_len;
 
 	little_endian_dword_to_bytes(context->count, bits_amount);
 	index = (context->count / 8) % 64;

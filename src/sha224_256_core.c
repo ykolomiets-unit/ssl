@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sha224_256_core.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/20 22:18:35 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/20 22:18:47 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sha224_256.h"
 #include "libft.h"
-#include "utils.h"
 
 void	sha224_256_init
 (
@@ -20,18 +31,18 @@ void	sha224_256_init
 	ft_bzero(ctx->buffer, 64);
 }
 
-void		sha224_256_final
+void	sha224_256_final
 (
 	t_sha256_ctx *ctx
 )
 {
-	static t_byte padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	static t_byte	padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0 };
-	t_byte		bits_amount[8];
-	uint32_t	index;
-	uint32_t	pad_len;
+		0, 0 };
+	t_byte			bits_amount[8];
+	uint32_t		index;
+	uint32_t		pad_len;
 
 	big_endian_dword_to_bytes(ctx->count, bits_amount);
 	index = (ctx->count / 8) % 64;

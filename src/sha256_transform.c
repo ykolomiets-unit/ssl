@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sha256_transform.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/20 22:22:01 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/20 22:22:05 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sha224_256.h"
 #include "utils.h"
 
@@ -27,7 +39,7 @@ static void		initialize
 	{
 		x[i] = SIG1(x[i - 2]) + x[i - 7] + SIG0(x[i - 15]) + x[i - 16];
 		i++;
-	}	
+	}
 	i = -1;
 	while (++i < 8)
 		abcdefgh[i] = state[i];
@@ -46,11 +58,20 @@ static t_word	*get_k(void)
 		0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
 		0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f,
 		0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2};
-	
+
 	return (k);
 }
 
-void	sha256_transform
+void			add_new_state(t_word state[8], t_word new_state[8])
+{
+	int	i;
+
+	i = -1;
+	while (++i < 8)
+		state[i] += new_state[i];
+}
+
+void			sha256_transform
 (
 	t_word state[8],
 	t_byte buffer[64]
@@ -79,7 +100,5 @@ void	sha256_transform
 		abcdefgh[1] = abcdefgh[0];
 		abcdefgh[0] = temp[0] + temp[1];
 	}
-	i = -1;
-	while (++i < 8)
-		state[i] += abcdefgh[i];
+	add_new_state(state, abcdefgh);
 }

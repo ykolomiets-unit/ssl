@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sha256_core.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/20 22:21:51 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/20 22:21:52 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sha224_256.h"
 #include "libft.h"
 
@@ -46,5 +58,5 @@ void		sha256_final
 )
 {
 	sha224_256_final(ctx);
-	big_endian_words_to_bytes(ctx->state, digest, 32);	
+	big_endian_words_to_bytes(ctx->state, digest, 32);
 }
