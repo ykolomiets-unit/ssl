@@ -9,14 +9,17 @@ LIBFT_INC :=			$(LIBFT_DIR)/includes
 LIBFT_LINK_FLAG :=		-lft -L$(LIBFT_DIR)
 LIBFT :=				$(LIBFT_DIR)/libft.a
 
-HEADERS :=				ft_ssl.h
+HEADERS :=				ft_ssl.h						\
+						md5.h							\
+						utils.h							\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
-MD5_SRCS :=				md5.c							\
-
-SRCS :=					main.c							\
-
+SRCS :=					md5_core.c						\
+						md5_transform.c					\
+						md5_driver.c					\
+						utils.c							\
+						main.c							\
 
 OBJ_DIR :=				./obj
 OBJS :=					$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -45,6 +48,7 @@ CC :=					clang
 CC_FLAGS :=				-Wall
 CC_FLAGS +=				-Wextra
 CC_FLAGS +=				-Werror
+CC_FLAGS +=				-g
 
 INC_FLAGS :=			$(addprefix -I, $(INC_DIR) $(LIBFT_INC))
 

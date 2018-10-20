@@ -1,2 +1,5 @@
+ft_ssl
+
 *.o
 *.DS_Store
+.vscode/

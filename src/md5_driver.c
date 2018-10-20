@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl.h                                           :+:      :+:    :+:   */
+/*   md5_driver.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/20 15:37:14 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:37:16 by ykolomie         ###   ########.fr       */
+/*   Created: 2018/10/20 15:33:33 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/20 15:35:00 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SSL_H
-# define FT_SSL_H
+#include "md5.h"
+#include "libft.h"
 
-#endif
+void	md5_string
+(
+	char *string,
+	unsigned char digest[16]
+)
+{
+	t_md5_context	context;
+
+	md5_init(&context);
+	md5_update(&context, string, ft_strlen(string));
+	md5_final(&context, digest);
+}

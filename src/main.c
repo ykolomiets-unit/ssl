@@ -1,9 +1,15 @@
 #include "libft.h"
+#include "md5.h"
 
 int		main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
-	ft_printf("Hello world!!!! %f\n", 4.222222);
+	unsigned char digest[16];
+
+	md5_string("huy", digest);
+	for (int i = 0; i < 16; i++)
+		ft_printf("%.2x", digest[i]);
+	ft_printf("\n");
 	return (0);
 }
