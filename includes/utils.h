@@ -15,9 +15,19 @@
 
 # include <inttypes.h>
 
-void	bytes_to_low_order_words(uint32_t *words, char *bytes,
+typedef unsigned char	t_byte;
+typedef uint32_t		t_word;
+typedef uint64_t		t_dword;
+
+void	bytes_to_little_endian_words(t_word *words, t_byte *bytes,
+									uint32_t bytes_len);
+void	bytes_to_big_endian_words(t_word *words, t_byte *bytes,
 								uint32_t bytes_len);
-void	low_order_words_to_bytes(uint32_t *words, char *bytes,
+void	little_endian_words_to_bytes(t_word *words, t_byte *bytes,
 								uint32_t bytes_len);
+void	big_endian_words_to_bytes(t_word *words, t_byte *bytes,
+								uint32_t bytes_len);
+void	little_endian_dword_to_bytes(t_dword value, t_byte bytes[8]);
+void	big_endian_dword_to_bytes(t_dword value, t_byte bytes[8]);
 
 #endif

@@ -16,12 +16,12 @@
 void	md5_string
 (
 	char *string,
-	unsigned char digest[16]
+	t_byte digest[16]
 )
 {
 	t_md5_context	context;
 
 	md5_init(&context);
-	md5_update(&context, string, ft_strlen(string));
+	md5_update(&context, (t_byte *)string, ft_strlen(string));
 	md5_final(&context, digest);
 }

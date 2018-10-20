@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "md5.h"
-#include "utils.h"
 
 #define S11 7
 #define S12 12
@@ -50,8 +49,8 @@
 
 static void	first_round
 (
-	uint32_t abcd[4],
-	uint32_t block[16]
+	t_word abcd[4],
+	t_word block[16]
 )
 {
 	FF(abcd[0], abcd[1], abcd[2], abcd[3], block[0], S11, 0xd76aa478);
@@ -74,8 +73,8 @@ static void	first_round
 
 static void	second_round
 (
-	uint32_t abcd[4],
-	uint32_t block[16]
+	t_word abcd[4],
+	t_word block[16]
 )
 {
 	GG(abcd[0], abcd[1], abcd[2], abcd[3], block[1], S21, 0xf61e2562);
@@ -98,8 +97,8 @@ static void	second_round
 
 static void	third_round
 (
-	uint32_t abcd[4],
-	uint32_t block[16]
+	t_word abcd[4],
+	t_word block[16]
 )
 {
 	HH(abcd[0], abcd[1], abcd[2], abcd[3], block[5], S31, 0xfffa3942);
@@ -122,8 +121,8 @@ static void	third_round
 
 static void	fourth_round
 (
-	uint32_t abcd[4],
-	uint32_t block[16]
+	t_word abcd[4],
+	t_word block[16]
 )
 {
 	II(abcd[0], abcd[1], abcd[2], abcd[3], block[0], S41, 0xf4292244);
@@ -146,8 +145,8 @@ static void	fourth_round
 
 void		md5_transform
 (
-	uint32_t state[4],
-	char buffer[64]
+	t_word state[4],
+	t_byte buffer[64]
 )
 {
 	uint32_t	abcd[4];
@@ -157,7 +156,7 @@ void		md5_transform
 	i = -1;
 	while (++i < 4)
 		abcd[i] = state[i];
-	bytes_to_low_order_words(x, buffer, 64);
+	bytes_to_little_endian_words(x, buffer, 64);
 	first_round(abcd, x);
 	second_round(abcd, x);
 	third_round(abcd, x);

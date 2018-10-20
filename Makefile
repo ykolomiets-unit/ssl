@@ -12,12 +12,18 @@ LIBFT :=				$(LIBFT_DIR)/libft.a
 HEADERS :=				ft_ssl.h						\
 						md5.h							\
 						utils.h							\
+						sha224_256.h					\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
 SRCS :=					md5_core.c						\
 						md5_transform.c					\
 						md5_driver.c					\
+						sha224_256_core.c				\
+						sha256_transform.c				\
+						sha224_core.c					\
+						sha256_core.c					\
+						sha256_driver.c					\
 						utils.c							\
 						main.c							\
 
