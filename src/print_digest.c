@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_snprintf.c                                      :+:      :+:    :+:   */
+/*   print_digest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/05 21:07:50 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/21 20:53:43 by ykolomie         ###   ########.fr       */
+/*   Created: 2018/10/21 20:52:27 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/21 20:52:29 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_ssl.h"
 #include "libft.h"
 
-int			ft_snprintf(char *restrict buf, const int size,
-				const char *fmt, ...)
+void	print_digest(t_byte *digest, int digest_size)
 {
-	int		printed;
-	va_list	ap;
+	int	i;
 
-	va_start(ap, fmt);
-	printed = ft_vsnprintf(buf, size, fmt, &ap);
-	va_end(ap);
-	return (printed);
+	i = 0;
+	while (i < digest_size)
+	{
+		ft_printf("%02x", digest[i]);
+		i++;
+	}
 }

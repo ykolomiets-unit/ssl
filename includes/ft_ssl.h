@@ -13,4 +13,45 @@
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
+# include "utils.h"
+
+# define FALSE 0
+# define TRUE 1
+
+typedef enum	e_source_type
+{
+	SOURCE_FILE,
+	SOURCE_STRING,
+	SOURCE_STDIN
+}				t_source_type;
+
+typedef struct	s_command_handler
+{
+	char		*command;
+	void		(*handler)(int, char **);
+}				t_command_handler;
+
+typedef int		t_bool;
+
+typedef struct	s_digest_flags
+{
+	t_bool		quite_mode;
+	t_bool		reverse_mode;
+}				t_digest_flags;
+
+typedef struct	s_digest_help
+{
+	char		*algorithm_name;
+	void		(*digest_of_string)(char *, unsigned char *);
+	void		(*digest_of_file)(int, unsigned char *);
+	void		(*digest_of_stdin)(unsigned char *, int);
+	int			digest_size;
+	t_byte		digest[32];
+	t_bool		something_processed;
+}				t_digest_help;
+
+void			error(char *err_msg);
+void			print_digest(unsigned char *digest, int size);
+void			process_digest(int argc, char **argv, t_digest_help help);
+
 #endif

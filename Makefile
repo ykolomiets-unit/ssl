@@ -25,7 +25,11 @@ SRCS :=					md5_core.c						\
 						sha256_core.c					\
 						sha256_driver.c					\
 						sha224_driver.c					\
-						utils.c							\
+						utils1.c						\
+						utils2.c						\
+						error.c							\
+						process_digest.c				\
+						print_digest.c					\
 						main.c							\
 
 OBJ_DIR :=				./obj

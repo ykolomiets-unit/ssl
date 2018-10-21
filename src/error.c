@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_snprintf.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/05 21:07:50 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/21 20:53:43 by ykolomie         ###   ########.fr       */
+/*   Created: 2018/10/21 20:39:40 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/21 20:39:41 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_ssl.h"
 #include "libft.h"
+#include <stdlib.h>
 
-int			ft_snprintf(char *restrict buf, const int size,
-				const char *fmt, ...)
+void	error(char *error_msg)
 {
-	int		printed;
-	va_list	ap;
-
-	va_start(ap, fmt);
-	printed = ft_vsnprintf(buf, size, fmt, &ap);
-	va_end(ap);
-	return (printed);
+	ft_printf("%s\n", error_msg);
+	exit(1);
 }
