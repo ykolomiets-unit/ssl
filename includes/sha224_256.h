@@ -43,5 +43,9 @@ void					sha224_final(t_sha224_ctx *ctx,
 
 void					sha256_string(char *string, t_byte digest[32]);
 void					sha224_string(char *string, t_byte digest[28]);
+void					sha256_file(int fd, t_byte digest[32]);
+void					sha224_file(int fd, t_byte digest[28]);
+void					sha224_filter(t_byte digest[32], int echo);
+void					sha256_filter(t_byte digest[28], int echo);
 
 #endif

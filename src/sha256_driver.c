@@ -12,6 +12,7 @@
 
 #include "sha224_256.h"
 #include "libft.h"
+#include <unistd.h>
 
 void	sha256_string
 (
@@ -26,15 +27,40 @@ void	sha256_string
 	sha256_final(&ctx, digest);
 }
 
-void	sha224_string
+void	sha256_file
 (
-	char *string,
-	t_byte digest[28]
+	int fd,
+	t_byte digest[32]
 )
 {
-	t_sha224_ctx	ctx;
+	t_sha256_ctx	ctx;
+	t_byte			buffer[1024];
+	int				r;
 
-	sha224_init(&ctx);
-	sha224_update(&ctx, (t_byte *)string, ft_strlen(string));
-	sha224_final(&ctx, digest);
+	sha256_init(&ctx);
+	while ((r = read(fd, buffer, 1024)) > 0)
+		sha256_update(&ctx, buffer, r);
+	sha256_final(&ctx, digest);
+}
+
+void	sha256_filter
+(
+	t_byte digest[32],
+	int echo
+)
+{
+	t_sha256_ctx	ctx;
+	t_byte			buffer[1024];
+	int				r;
+
+	sha256_init(&ctx);
+	while ((r = read(0, buffer, 1024)) > 0)
+	{
+		if (echo)
+			write(1, buffer, r);
+		sha256_update(&ctx, buffer, r);
+	}
+	if (echo)
+		write(1, "\n", 1);
+	sha256_final(&ctx, digest);
 }

@@ -24,6 +24,7 @@ SRCS :=					md5_core.c						\
 						sha224_core.c					\
 						sha256_core.c					\
 						sha256_driver.c					\
+						sha224_driver.c					\
 						utils.c							\
 						main.c							\
 
@@ -42,8 +43,8 @@ UNITY_FIXTURE_INC :=	$(UNITY_DIR)/extras/fixture/src
 UNITY_SRCS :=			unity.c							\
 						unity_fixture.c
 
-TEST_SRCS :=			$(UNITY_SRCS)						\
-						all_tests.c							\
+TEST_SRCS :=			$(UNITY_SRCS)					\
+						all_tests.c						\
 
 TEST_INC_FLAGS :=		-I$(UNITY_INC) -I$(UNITY_FIXTURE_INC)
 

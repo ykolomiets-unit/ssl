@@ -12,6 +12,8 @@
 
 #include "md5.h"
 #include "libft.h"
+#include <unistd.h>
+#include <stdio.h>
 
 void	md5_string
 (
@@ -19,9 +21,47 @@ void	md5_string
 	t_byte digest[16]
 )
 {
-	t_md5_context	context;
+	t_md5_ctx	ctx;
 
-	md5_init(&context);
-	md5_update(&context, (t_byte *)string, ft_strlen(string));
-	md5_final(&context, digest);
+	md5_init(&ctx);
+	md5_update(&ctx, (t_byte *)string, ft_strlen(string));
+	md5_final(&ctx, digest);
+}
+
+void	md5_file
+(
+	int fd,
+	t_byte digest[16]
+)
+{
+	t_md5_ctx	ctx;
+	t_byte		buffer[1024];
+	int			r;
+
+	md5_init(&ctx);
+	while ((r = read(fd, buffer, 1024)) > 0)
+		md5_update(&ctx, buffer, r);
+	md5_final(&ctx, digest);
+}
+
+void	md5_filter
+(
+	t_byte digest[16],
+	int echo
+)
+{
+	t_md5_ctx	ctx;
+	t_byte		buffer[1024];
+	int			r;
+
+	md5_init(&ctx);
+	while ((r = read(0, buffer, 1024)) > 0)
+	{
+		if (echo)
+			write(1, buffer, r);
+		md5_update(&ctx, buffer, r);
+	}
+	if (echo)
+		write(1, "\n", 1);
+	md5_final(&ctx, digest);
 }

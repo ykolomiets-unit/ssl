@@ -15,20 +15,20 @@
 
 void		md5_init
 (
-	t_md5_context *context
+	t_md5_ctx *ctx
 )
 {
-	context->count = 0;
-	context->state[0] = 0x67452301;
-	context->state[1] = 0xefcdab89;
-	context->state[2] = 0x98badcfe;
-	context->state[3] = 0x10325476;
-	ft_bzero(context->buffer, 64);
+	ctx->count = 0;
+	ctx->state[0] = 0x67452301;
+	ctx->state[1] = 0xefcdab89;
+	ctx->state[2] = 0x98badcfe;
+	ctx->state[3] = 0x10325476;
+	ft_bzero(ctx->buffer, 64);
 }
 
 void		md5_update
 (
-	t_md5_context *context,
+	t_md5_ctx *ctx,
 	t_byte *input,
 	uint32_t input_len
 )
@@ -38,27 +38,27 @@ void		md5_update
 	uint32_t	part_len;
 
 	i = 0;
-	index = (context->count / 8) % 64;
-	context->count += input_len * 8;
+	index = (ctx->count / 8) % 64;
+	ctx->count += input_len * 8;
 	part_len = 64 - index;
 	if (input_len >= part_len)
 	{
-		ft_memcpy(&context->buffer[index], input, part_len);
-		md5_transform(context->state, context->buffer);
+		ft_memcpy(&ctx->buffer[index], input, part_len);
+		md5_transform(ctx->state, ctx->buffer);
 		i = part_len;
 		while (i + 63 < input_len)
 		{
-			md5_transform(context->state, &input[i]);
+			md5_transform(ctx->state, &input[i]);
 			i += 64;
 		}
 		index = 0;
 	}
-	ft_memcpy(&context->buffer[index], &input[i], input_len - i);
+	ft_memcpy(&ctx->buffer[index], &input[i], input_len - i);
 }
 
 void		md5_final
 (
-	t_md5_context *context,
+	t_md5_ctx *ctx,
 	t_byte digest[16]
 )
 {
@@ -70,10 +70,10 @@ void		md5_final
 	uint32_t		index;
 	uint32_t		pad_len;
 
-	little_endian_dword_to_bytes(context->count, bits_amount);
-	index = (context->count / 8) % 64;
+	little_endian_dword_to_bytes(ctx->count, bits_amount);
+	index = (ctx->count / 8) % 64;
 	pad_len = (index < 56) ? (56 - index) : (120 - index);
-	md5_update(context, padding, pad_len);
-	md5_update(context, bits_amount, 8);
-	little_endian_words_to_bytes(context->state, digest, 16);
+	md5_update(ctx, padding, pad_len);
+	md5_update(ctx, bits_amount, 8);
+	little_endian_words_to_bytes(ctx->state, digest, 16);
 }

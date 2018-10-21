@@ -15,19 +15,21 @@
 
 # include "utils.h"
 
-typedef struct	s_md5_context
+typedef struct	s_md5_ctx
 {
 	t_word		state[4];
 	t_dword		count;
 	t_byte		buffer[64];
-}				t_md5_context;
+}				t_md5_ctx;
 
-void			md5_init(t_md5_context *context);
-void			md5_update(t_md5_context *context, t_byte *input,
+void			md5_init(t_md5_ctx *ctx);
+void			md5_update(t_md5_ctx *ctx, t_byte *input,
 							uint32_t input_len);
 void			md5_transform(t_word state[4], t_byte buffer[64]);
-void			md5_final(t_md5_context *context, t_byte digest[16]);
+void			md5_final(t_md5_ctx *ctx, t_byte digest[16]);
 
 void			md5_string(char *string, t_byte digest[16]);
+void			md5_file(int fd, t_byte digest[16]);
+void			md5_filter(t_byte digest[16], int echo);
 
 #endif
