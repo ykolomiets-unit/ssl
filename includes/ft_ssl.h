@@ -25,10 +25,12 @@ typedef enum	e_source_type
 	SOURCE_STDIN
 }				t_source_type;
 
+typedef void 	(*t_handler)(int, char **);
+
 typedef struct	s_command_handler
 {
 	char		*command;
-	void		(*handler)(int, char **);
+	t_handler	handler;
 }				t_command_handler;
 
 typedef int		t_bool;

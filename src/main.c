@@ -16,8 +16,12 @@
 #include "ft_ssl.h"
 
 #define USAGE_MSG "usage: ft_ssl command [command opts] [command args]\n"
+#define STANDARD_COMMANDS "Standard commands: "
+#define DIGEST_COMMANDS "Message Digest commands: "
+#define CIPHER_COMMANDS "Cipher commands: "
 
-#define COMMANDS_AMOUNT 3
+#define DIGEST_COMMANDS_AMOUNT 3
+#define CIPHER_COMMANDS_AMOUNT 1
 
 static void	md5_handler(int argc, char **argv)
 {
@@ -58,30 +62,77 @@ static void	sha256_handler(int argc, char **argv)
 	process_digest(argc, argv, help);
 }
 
+static void	base64_handler(int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+}
+
+static t_handler	get_command_handler
+(
+	char *command_name,
+	t_command_handler digest_commands[],
+	t_command_handler cipher_commands[]
+)
+{
+	int							i;
+
+	i = -1;
+	while (++i < DIGEST_COMMANDS_AMOUNT)
+		if (ft_strcmp(command_name, digest_commands[i].command) == 0)
+			return (digest_commands[i].handler);
+	i = -1;
+	while (++i < CIPHER_COMMANDS_AMOUNT)
+		if (ft_strcmp(command_name, cipher_commands[i].command) == 0)
+			return (cipher_commands[i].handler);
+	return (NULL);
+}
+
+static void	print_commands
+(
+	char *invalid_command,
+	t_command_handler digest_commands[],
+	t_command_handler cipher_commands[]
+)
+{
+	int	i;
+
+	ft_printf("ft_ssl: Error: '%s' is an invalid command\n\n", invalid_command);
+	ft_printf("%s\n", STANDARD_COMMANDS);
+	i = -1;
+	ft_printf("\n");
+	ft_printf("%s\n", DIGEST_COMMANDS);
+	while (++i < DIGEST_COMMANDS_AMOUNT)
+		ft_printf("%s\n", digest_commands[i].command);
+	ft_printf("\n");
+	ft_printf("%s\n", CIPHER_COMMANDS);
+	i = -1;
+	while (++i < CIPHER_COMMANDS_AMOUNT)
+		ft_printf("%s\n", cipher_commands[i].command);
+}
+
 int			main(int argc, char **argv)
 {
-	static t_command_handler	handlers[COMMANDS_AMOUNT] = {
+	static t_command_handler	digest_commands[] = {
 		{"md5", md5_handler},
 		{"sha224", sha224_handler},
 		{"sha256", sha256_handler}
 	};
-	int							i;
+	static t_command_handler	cipher_commands[] = {
+		{"base64", base64_handler}
+	};
+	t_handler					handler;
+	
 
 	if (argc < 2)
 	{
 		ft_printf(USAGE_MSG);
 		return (0);
 	}
-	i = 0;
-	while (i < COMMANDS_AMOUNT)
-	{
-		if (ft_strcmp(argv[1], handlers[i].command) == 0)
-		{
-			handlers[i].handler(argc - 2, argv + 2);
-			return (0);
-		}
-		i++;
-	}
-	ft_printf(USAGE_MSG);
+	handler = get_command_handler(argv[1], digest_commands, cipher_commands);
+	if (handler == NULL)
+		print_commands(argv[1], digest_commands, cipher_commands);
+	else
+		handler(argc - 2, argv + 2);
 	return (0);
 }
