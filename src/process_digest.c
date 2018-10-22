@@ -86,8 +86,10 @@ static int	process_options
 			flags->reverse_mode = TRUE;
 		else if (ft_strcmp(argv[i], "-p") == 0)
 			handle_p(help);
+		else if (ft_strcmp(argv[i], "--") == 0)
+			return (i + 1);
 		else
-			break ;
+			return (i);
 	}
 	return (i);
 }
@@ -114,6 +116,7 @@ static void	process_files
 			help->digest_of_file(fd, help->digest);
 			output_result(flags, help, SOURCE_FILE, argv[i]);
 		}
+		help->something_processed = TRUE;
 	}
 }
 
