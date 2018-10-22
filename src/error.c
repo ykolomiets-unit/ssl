@@ -19,3 +19,4 @@ void	error(char *error_msg)
 	ft_printf("%s\n", error_msg);
 	exit(1);
 }
+	

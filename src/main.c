@@ -13,7 +13,9 @@
 #include "libft.h"
 #include "md5.h"
 #include "sha224_256.h"
+#include "base64.h"
 #include "ft_ssl.h"
+#include <fcntl.h>
 
 #define USAGE_MSG "usage: ft_ssl command [command opts] [command args]\n"
 #define STANDARD_COMMANDS "Standard commands: "
@@ -62,10 +64,62 @@ static void	sha256_handler(int argc, char **argv)
 	process_digest(argc, argv, help);
 }
 
+typedef struct	s_base64_options
+{
+	t_bool		encode;
+	t_bool		decode;
+	char		*input_file;
+	char		*output_file;
+}				t_base64_options;
+
+static void	base64_parse_options(t_base64_options *options, int argc, char **argv)
+{
+	int i;
+
+	i = -1;
+	while (++i < argc)
+		if (ft_strcmp(argv[i], "-d") == 0)
+			options->decode = TRUE;
+		else if (ft_strcmp(argv[i], "-e") == 0)
+			options->encode = TRUE;
+		else if (ft_strcmp(argv[i], "-i") == 0)
+		{
+			if (++i >= argc)
+				error("No filename after -i");
+			options->input_file = argv[i];
+		}
+		else if (ft_strcmp(argv[i], "-o") == 0)
+		{
+			if (++i >= argc)
+				error("No filename after -o");
+			options->output_file = argv[i];
+		}
+		else if (ft_strcmp(argv[i], "--") == 0 && i++)
+			break ;
+		else
+			break ;
+	if (i < argc)
+		options->input_file = argv[i];
+}
+
 static void	base64_handler(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
+	t_base64_options	options;
+	int					in;
+	int					out;
+
+	ft_bzero(&options, sizeof(options));
+	base64_parse_options(&options, argc, argv);
+	if (options.input_file == NULL)
+		in = 0;
+	else
+		in = open(options.input_file, O_RDONLY);
+	if (options.output_file == NULL)
+		out = 1;
+	else
+		out = open(options.output_file, O_WRONLY | O_CREAT, 0644);
+	if (!options.decode)
+		base64_encode_file_to_file(in, out);
 }
 
 static t_handler	get_command_handler

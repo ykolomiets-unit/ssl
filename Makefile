@@ -1,4 +1,4 @@
-NAME :=					ft_ssl	
+NAME :=					ft_ssl
 
 INC_DIR :=				./includes
 SRC_DIR :=				./src
@@ -13,6 +13,7 @@ HEADERS :=				ft_ssl.h						\
 						md5.h							\
 						utils.h							\
 						sha224_256.h					\
+						base64.h						\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
@@ -30,6 +31,7 @@ SRCS :=					md5_core.c						\
 						error.c							\
 						process_digest.c				\
 						print_digest.c					\
+						base64.c						\
 						main.c							\
 
 OBJ_DIR :=				./obj
