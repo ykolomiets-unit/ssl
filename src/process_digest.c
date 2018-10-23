@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-#include "md5.h"
-#include "sha224_256.h"
 #include "libft.h"
+#include <stdio.h>
 #include <fcntl.h>
 
 static void	output_result
@@ -61,8 +60,7 @@ static void	handle_p
 
 static int	process_options
 (
-	int argc,
-	char **argv,
+	t_ssl *ssl,
 	t_digest_help *help,
 	t_digest_flags *flags
 )
@@ -70,23 +68,23 @@ static int	process_options
 	int	i;
 
 	i = -1;
-	while (++i < argc)
+	while (++i < ssl->argc)
 	{
-		if (ft_strcmp(argv[i], "-s") == 0)
+		if (ft_strcmp(ssl->argv[i], "-s") == 0)
 		{
-			if (++i >= argc)
+			if (++i >= ssl->argc)
 				error("No string after -s");
-			help->digest_of_string(argv[i], help->digest);
-			output_result(flags, help, SOURCE_STRING, argv[i]);
+			help->digest_of_string(ssl->argv[i], help->digest);
+			output_result(flags, help, SOURCE_STRING, ssl->argv[i]);
 			help->something_processed = TRUE;
 		}
-		else if (ft_strcmp(argv[i], "-q") == 0)
+		else if (ft_strcmp(ssl->argv[i], "-q") == 0)
 			flags->quite_mode = TRUE;
-		else if (ft_strcmp(argv[i], "-r") == 0)
+		else if (ft_strcmp(ssl->argv[i], "-r") == 0)
 			flags->reverse_mode = TRUE;
-		else if (ft_strcmp(argv[i], "-p") == 0)
+		else if (ft_strcmp(ssl->argv[i], "-p") == 0)
 			handle_p(help);
-		else if (ft_strcmp(argv[i], "--") == 0)
+		else if (ft_strcmp(ssl->argv[i], "--") == 0)
 			return (i + 1);
 		else
 			return (i);
@@ -96,8 +94,7 @@ static int	process_options
 
 static void	process_files
 (
-	int argc,
-	char **argv,
+	t_ssl *ssl,
 	t_digest_help *help,
 	t_digest_flags *flags
 )
@@ -106,29 +103,38 @@ static void	process_files
 	int	fd;
 
 	i = -1;
-	while (++i < argc)
+	while (++i < ssl->argc)
 	{
-		fd = open(argv[i], O_RDONLY);
+		fd = open(ssl->argv[i], O_RDONLY);
 		if (fd < 0)
-			ft_printf("Can't open file %s\n", argv[i]);
+		{
+			ft_printf("ft_ssl: %s: %s: ", ssl->command, ssl->argv[i]);
+			perror(NULL);
+		}
 		else
 		{
 			help->digest_of_file(fd, help->digest);
-			output_result(flags, help, SOURCE_FILE, argv[i]);
+			output_result(flags, help, SOURCE_FILE, ssl->argv[i]);
 		}
 		help->something_processed = TRUE;
 	}
 }
 
-void		process_digest(int argc, char **argv, t_digest_help help)
+void		process_digest
+(
+	t_ssl *ssl,
+	t_digest_help help
+)
 {
 	t_digest_flags	flags;
 	int				i;
 
 	flags.quite_mode = FALSE;
 	flags.reverse_mode = FALSE;
-	i = process_options(argc, argv, &help, &flags);
-	process_files(argc - i, argv + i, &help, &flags);
+	i = process_options(ssl, &help, &flags);
+	ssl->argc -= i;
+	ssl->argv += i;
+	process_files(ssl, &help, &flags);
 	if (help.something_processed == FALSE)
 	{
 		help.digest_of_stdin(help.digest, FALSE);

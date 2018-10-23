@@ -60,7 +60,5 @@ void	sha224_filter
 			write(1, buffer, r);
 		sha224_update(&ctx, buffer, r);
 	}
-	if (echo)
-		write(1, "\n", 1);
 	sha224_final(&ctx, digest);
 }

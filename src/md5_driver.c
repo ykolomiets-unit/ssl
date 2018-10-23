@@ -61,7 +61,5 @@ void	md5_filter
 			write(1, buffer, r);
 		md5_update(&ctx, buffer, r);
 	}
-	if (echo)
-		write(1, "\n", 1);
 	md5_final(&ctx, digest);
 }

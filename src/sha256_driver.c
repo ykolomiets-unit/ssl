@@ -60,7 +60,5 @@ void	sha256_filter
 			write(1, buffer, r);
 		sha256_update(&ctx, buffer, r);
 	}
-	if (echo)
-		write(1, "\n", 1);
 	sha256_final(&ctx, digest);
 }

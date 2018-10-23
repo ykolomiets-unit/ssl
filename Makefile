@@ -29,6 +29,7 @@ SRCS :=					md5_core.c						\
 						utils2.c						\
 						error.c							\
 						process_digest.c				\
+						digest_handlers.c				\
 						print_digest.c					\
 						main.c							\
 

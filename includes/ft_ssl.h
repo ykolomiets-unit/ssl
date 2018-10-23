@@ -25,10 +25,19 @@ typedef enum	e_source_type
 	SOURCE_STDIN
 }				t_source_type;
 
+typedef struct	s_ssl
+{
+	char		*command;
+	int			argc;
+	char		**argv;
+}				t_ssl;
+
+typedef void	(*t_handler)(t_ssl *);
+
 typedef struct	s_command_handler
 {
 	char		*command;
-	void		(*handler)(int, char **);
+	t_handler	handler;
 }				t_command_handler;
 
 typedef int		t_bool;
@@ -52,6 +61,9 @@ typedef struct	s_digest_help
 
 void			error(char *err_msg);
 void			print_digest(unsigned char *digest, int size);
-void			process_digest(int argc, char **argv, t_digest_help help);
+void			md5_handler(t_ssl *ssl);
+void			sha224_handler(t_ssl *ssl);
+void			sha256_handler(t_ssl *ssl);
+void			process_digest(t_ssl *ssl, t_digest_help help);
 
 #endif
