@@ -14,14 +14,15 @@
 #include "libft.h"
 #include <unistd.h>
 
-#define BLOCK_SIZE 300
+#define IN_BLOCK_SIZE 300
+#define OUT_BLOCK_SIZE 400
 #define B64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
 uint32_t	base64_encode
 (
-	t_byte in[BLOCK_SIZE],
+	t_byte in[IN_BLOCK_SIZE],
 	uint32_t in_size,
-	t_byte *out
+	t_byte out[OUT_BLOCK_SIZE]
 )
 {
 	static char	b64[] = B64;
@@ -56,15 +57,26 @@ void		base64_encode_file_to_file
 )
 {
 	int			r;
-	t_byte		input_buffer[BLOCK_SIZE];
+	uint32_t	in_buf;
+	t_byte		input_buffer[IN_BLOCK_SIZE];
 	uint32_t	w;
-	t_byte		output_buffer[400];
+	t_byte		output_buffer[OUT_BLOCK_SIZE];
 
 	r = 0;
-	while ((r = read(input, input_buffer, BLOCK_SIZE)))
+	in_buf = 0;
+	while ((r = read(input, input_buffer + in_buf, IN_BLOCK_SIZE - in_buf)) > 0)
 	{
-		ft_printf("Read = %d\n", r);
-		w = base64_encode(input_buffer, r, output_buffer);
+		in_buf += r;
+		if (in_buf == IN_BLOCK_SIZE)
+		{
+			w = base64_encode(input_buffer, IN_BLOCK_SIZE, output_buffer);
+			write(output, output_buffer, w);
+			in_buf = 0;
+		}
+	}
+	if (in_buf)
+	{
+		w = base64_encode(input_buffer, in_buf, output_buffer);
 		write(output, output_buffer, w);
 	}
 	ft_putchar_fd('\0', output);
