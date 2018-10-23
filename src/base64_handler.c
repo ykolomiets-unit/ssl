@@ -84,6 +84,13 @@ void		base64_handler(t_ssl *ssl)
 		out = 1;
 	else
 		out = open_output_file(options.output_file);
+	if (options.encode == TRUE && options.decode == TRUE)
+	{
+		ft_printf("Choose one option: encode (default) or decode\n");
+		exit(1);
+	}
 	if (!options.decode)
 		base64_encode_file_to_file(in, out);
+	else
+		base64_decode_file_to_file(in, out);
 }
