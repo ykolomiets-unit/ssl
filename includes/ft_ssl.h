@@ -59,11 +59,20 @@ typedef struct	s_digest_help
 	t_bool		something_processed;
 }				t_digest_help;
 
+typedef struct	s_base64_options
+{
+	t_bool		encode;
+	t_bool		decode;
+	char		*input_file;
+	char		*output_file;
+}				t_base64_options;
+
 void			error(char *err_msg);
 void			print_digest(unsigned char *digest, int size);
 void			md5_handler(t_ssl *ssl);
 void			sha224_handler(t_ssl *ssl);
 void			sha256_handler(t_ssl *ssl);
+void			base64_handler(t_ssl *ssl);
 void			process_digest(t_ssl *ssl, t_digest_help help);
 
 #endif
