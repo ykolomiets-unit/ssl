@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   base64.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:j+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 20:20:10 by ykolomie          #+#    #+#             */
 /*   Updated: 2018/10/22 20:20:12 by ykolomie         ###   ########.fr       */
@@ -16,6 +16,7 @@
 
 #define HZ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 #define IS_BASE64(ch, table) ((ch) > 0 && ((table)[ch] >= 0))
+#define IS_WHITESPACE(ch) ((ch) == '\n' || (ch) == ' ' || (ch) == '\t')
 
 #define IN_BLOCK_SIZE 300
 #define OUT_BLOCK_SIZE 400
@@ -99,7 +100,7 @@ void		base64_encode_file_to_file
 	ft_putchar_fd('\0', output);
 }
 
-uint32_t	base64_decode
+int			base64_decode
 (
 	t_byte in[OUT_BLOCK_SIZE],
 	uint32_t in_size,
@@ -116,39 +117,39 @@ uint32_t	base64_decode
 	while (in_pos + 2 < in_size)
 	{
 		if (!IS_BASE64(in[in_pos], b64) || !IS_BASE64(in[in_pos + 1], b64))
-			break ;
+			return (-1);
 		out[out_pos++] = (b64[in[in_pos]] << 2) | (b64[in[in_pos + 1]] >> 4); 
 		if (in_pos + 2 == in_size)
-			break ;
+			return (-1);
 		if (in[in_pos + 2] == '=')
 		{
 			if (in_pos + 4 != in_size || in[in_pos + 3] != '=')
-				break ;
+				return (-1);
 		}
 		else
 		{
 			if (!IS_BASE64(in[in_pos + 2], b64))
-				break ;
+				return (-1);
 			out[out_pos++] = ((b64[in[in_pos + 1]] << 4) & 0xf0)
 				| (b64[in[in_pos + 2]] >> 2);
 			if (in_pos + 3 == in_size)
-				break ;
+				return (-1);
 			if (in[in_pos + 3] == '=')
 			{
 				if (in_pos + 4 != in_size)
-					break ;
+					return (-1);
 			}
 			else
 			{
 				if (!IS_BASE64(in[in_pos + 3], b64))
-					break ;
+					return (-1);
 				out[out_pos++] = ((b64[in[in_pos + 2]] << 6) & 0xc0)
 					| b64[in[in_pos + 3]];
 			}
 		}
 		in_pos += 4;
 	}
-	return (0);
+	return (out_pos);
 }
 
 void		base64_decode_file_to_file
@@ -165,20 +166,21 @@ void		base64_decode_file_to_file
 
 	r = 0;
 	in_buf = 0;
-	while ((r = read(input, input_buffer + in_buf, IN_BLOCK_SIZE - in_buf)) > 0)
+	while ((r = read(input, input_buffer + in_buf, OUT_BLOCK_SIZE - in_buf)) > 0)
 	{
 		in_buf += r;
 		if (in_buf == OUT_BLOCK_SIZE)
 		{
-			w = base64_decode(input_buffer, OUT_BLOCK_SIZE, output_buffer);
+			if ((w = base64_decode(input_buffer, OUT_BLOCK_SIZE, output_buffer)) < 0)
+				error("Invalid character in input stream");
 			write(output, output_buffer, w);
 			in_buf = 0;
 		}
 	}
 	if (in_buf)
 	{
-		w = base64_encode(input_buffer, in_buf, output_buffer);
+		if ((w = base64_decode(input_buffer, in_buf, output_buffer)) < 0)
+			error("Invalid character in input stream");
 		write(output, output_buffer, w);
 	}
-	ft_putchar_fd('\0', output);
 }
