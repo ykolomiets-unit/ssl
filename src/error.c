@@ -18,4 +18,3 @@ int	error(char *error_msg)
 	ft_printf("%s\n", error_msg);
 	return (-1);
 }
-	

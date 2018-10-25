@@ -22,11 +22,19 @@
 #define DIGEST_COMMANDS_AMOUNT 5
 #define CIPHER_COMMANDS_AMOUNT 1
 
-static void			print_commands
-(
-	t_command_handler digest_commands[],
-	t_command_handler cipher_commands[]
-)
+static const t_command_handler	g_digest_commands[] = {
+	{"md5", md5_handler},
+	{"sha224", sha224_handler},
+	{"sha256", sha256_handler},
+	{"sha384", sha384_handler},
+	{"sha512", sha512_handler}
+};
+
+static const t_command_handler	g_cipher_commands[] = {
+	{"base64", base64_handler}
+};
+
+static void						print_commands(void)
 {
 	int	i;
 
@@ -34,63 +42,55 @@ static void			print_commands
 	ft_printf("\n%s\n", DIGEST_COMMANDS);
 	i = -1;
 	while (++i < DIGEST_COMMANDS_AMOUNT)
-		ft_printf("%s\n", digest_commands[i].command);
+		ft_printf("%s\n", g_digest_commands[i].command);
 	ft_printf("\n%s\n", CIPHER_COMMANDS);
 	i = -1;
 	while (++i < CIPHER_COMMANDS_AMOUNT)
-		ft_printf("%s\n", cipher_commands[i].command);
+		ft_printf("%s\n", g_cipher_commands[i].command);
 }
 
-static t_handler	get_command_handler
+static t_handler				get_command_handler
 (
-	char *command_name,
-	t_command_handler digest_commands[],
-	t_command_handler cipher_commands[]
+	char *command_name
 )
 {
-	int							i;
+	int	i;
 
 	i = -1;
 	while (++i < DIGEST_COMMANDS_AMOUNT)
-		if (ft_strcmp(command_name, digest_commands[i].command) == 0)
-			return (digest_commands[i].handler);
+		if (ft_strcmp(command_name, g_digest_commands[i].command) == 0)
+			return (g_digest_commands[i].handler);
 	i = -1;
 	while (++i < CIPHER_COMMANDS_AMOUNT)
-		if (ft_strcmp(command_name, cipher_commands[i].command) == 0)
-			return (cipher_commands[i].handler);
+		if (ft_strcmp(command_name, g_cipher_commands[i].command) == 0)
+			return (g_cipher_commands[i].handler);
 	return (NULL);
 }
 
-static int			process_params(int argc, char **argv)
+static int						process_params
+(
+	int argc,
+	char **argv
+)
 {
-	static t_command_handler	digest_commands[] = {
-		{"md5", md5_handler},
-		{"sha224", sha224_handler},
-		{"sha256", sha256_handler},
-		{"sha384", sha384_handler},
-		{"sha512", sha512_handler}
-	};
-	static t_command_handler	cipher_commands[] = {
-		{"base64", base64_handler}
-	};
-	t_handler					handler;
-	t_ssl						ssl;
+	t_handler	handler;
+	t_ssl		ssl;
 
 	ssl.command = argv[0];
 	ssl.argc = argc - 1;
 	ssl.argv = argv + 1;
-	handler = get_command_handler(ssl.command, digest_commands, cipher_commands);
+	handler = get_command_handler(ssl.command);
 	if (handler == NULL)
 	{
 		ft_printf("ft_ssl: Error: '%s' is an invalid command\n", ssl.command);
-		print_commands(digest_commands, cipher_commands);
+		print_commands();
 	}
 	else
 		handler(&ssl);
 	return (0);
 }
 
-static int			listen_commands_from_stdin(void)
+static int						listen_commands_from_stdin(void)
 {
 	char	buffer[1025];
 	char	**table;
@@ -115,7 +115,11 @@ static int			listen_commands_from_stdin(void)
 	}
 }
 
-int					main(int argc, char **argv)
+int								main
+(
+	int argc,
+	char **argv
+)
 {
 	if (argc < 2)
 		listen_commands_from_stdin();

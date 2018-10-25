@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   base64_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/25 21:26:21 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/25 21:26:22 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ssl.h"
 #include "base64.h"
 #include "libft.h"
@@ -5,7 +17,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void	base64_parse_options
+static int	get_file_name
+(
+	int *i,
+	int argc,
+	char **argv,
+	char **target
+)
+{
+	if ((*i + 1) >= argc)
+	{
+		ft_printf("No file name after %s\n", argv[*i]);
+		return (-1);
+	}
+	*i += 1;
+	*target = argv[*i];
+	return (0);
+}
+
+static int	base64_parse_options
 (
 	t_base64_options *options,
 	int argc,
@@ -22,15 +52,13 @@ static void	base64_parse_options
 			options->encode = TRUE;
 		else if (ft_strcmp(argv[i], "-i") == 0)
 		{
-			if (++i >= argc)
-				error("No filename after -i");
-			options->input_file = argv[i];
+			if (get_file_name(&i, argc, argv, &options->input_file))
+				return (-1);
 		}
 		else if (ft_strcmp(argv[i], "-o") == 0)
 		{
-			if (++i >= argc)
-				error("No filename after -o");
-			options->output_file = argv[i];
+			if (get_file_name(&i, argc, argv, &options->output_file))
+				return (-1);
 		}
 		else if (ft_strcmp(argv[i], "--") == 0 && i++)
 			break ;
@@ -38,6 +66,7 @@ static void	base64_parse_options
 			break ;
 	if (i < argc)
 		options->input_file = argv[i];
+	return (0);
 }
 
 static int	open_input_file(char *file_name)
@@ -75,7 +104,8 @@ void		base64_handler(t_ssl *ssl)
 	int					out;
 
 	ft_bzero(&options, sizeof(options));
-	base64_parse_options(&options, ssl->argc, ssl->argv);
+	if (base64_parse_options(&options, ssl->argc, ssl->argv))
+		return ;
 	if (options.input_file == NULL)
 		in = 0;
 	else
@@ -94,3 +124,4 @@ void		base64_handler(t_ssl *ssl)
 	else
 		base64_decode_file_to_file(in, out);
 }
+

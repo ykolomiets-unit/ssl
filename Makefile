@@ -40,7 +40,8 @@ SRCS :=					md5_core.c						\
 						digest_handlers.c				\
 						base64_handler.c				\
 						print_digest.c					\
-						base64.c						\
+						base64_decode.c					\
+						base64_encode.c					\
 						main.c							\
 
 OBJ_DIR :=				./obj
