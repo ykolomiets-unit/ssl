@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "libft.h"
 #include <unistd.h>
+#include "ft_ssl.h"
 
 #define HZ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 #define IS_BASE64(ch, table) ((ch) > 0 && ((table)[ch] >= 0))
@@ -152,7 +153,7 @@ int			base64_decode
 	return (out_pos);
 }
 
-void		base64_decode_file_to_file
+int		base64_decode_file_to_file
 (
 	int input,
 	int output
@@ -161,7 +162,7 @@ void		base64_decode_file_to_file
 	int			r;
 	uint32_t	in_buf;
 	t_byte		input_buffer[OUT_BLOCK_SIZE];
-	uint32_t	w;
+	int 		w;
 	t_byte		output_buffer[IN_BLOCK_SIZE];
 
 	r = 0;
@@ -172,7 +173,7 @@ void		base64_decode_file_to_file
 		if (in_buf == OUT_BLOCK_SIZE)
 		{
 			if ((w = base64_decode(input_buffer, OUT_BLOCK_SIZE, output_buffer)) < 0)
-				error("Invalid character in input stream");
+				return (error("Invalid character in input stream"));
 			write(output, output_buffer, w);
 			in_buf = 0;
 		}
@@ -180,7 +181,8 @@ void		base64_decode_file_to_file
 	if (in_buf)
 	{
 		if ((w = base64_decode(input_buffer, in_buf, output_buffer)) < 0)
-			error("Invalid character in input stream");
+			return (error("Invalid character in input stream"));
 		write(output, output_buffer, w);
 	}
+	return (0);
 }

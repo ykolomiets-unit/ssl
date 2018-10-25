@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/30 22:47:27 by ykolomie          #+#    #+#             */
-/*   Updated: 2016/12/06 17:45:04 by ykolomie         ###   ########.fr       */
+/*   Created: 2018/10/24 19:57:26 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/24 19:58:01 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
 void			ft_free_table(char ***table, int size);
+int				ft_get_table_size(char **table);
 int				ft_count_word(char const *s, char delimetr);
 
 char			*ft_itoa(int n);
@@ -97,10 +98,13 @@ t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 double			ft_ceil(double d);
 
-int 			ft_printf(const char *restrict fmt, ...);
-int 			ft_dprintf(const int fd, const char *restrict fmt, ...);
-int 			ft_snprintf(char *buf, const int size, const char *restrict fmt, ...);
-int 			ft_vdprintf(const int fd, const char *restrict fmt, va_list *ap);
-int 			ft_vsnprintf(char *buf, const int size, const char *restrict fmt, va_list *ap);
+int				ft_printf(const char *restrict fmt, ...);
+int				ft_dprintf(const int fd, const char *restrict fmt, ...);
+int				ft_snprintf(char *buf, const int size,
+					const char *restrict fmt, ...);
+int				ft_vdprintf(const int fd, const char *restrict fmt,
+					va_list *ap);
+int				ft_vsnprintf(char *buf, const int size,
+					const char *restrict fmt, va_list *ap);
 
 #endif

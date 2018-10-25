@@ -12,14 +12,14 @@
 
 #include "libft.h"
 #include "ft_ssl.h"
-#include <fcntl.h>
+#include <unistd.h>
 
 #define USAGE_MSG "usage: ft_ssl command [command opts] [command args]\n"
 #define STANDARD_COMMANDS "Standard commands: "
 #define DIGEST_COMMANDS "Message Digest commands: "
 #define CIPHER_COMMANDS "Cipher commands: "
 
-#define DIGEST_COMMANDS_AMOUNT 3
+#define DIGEST_COMMANDS_AMOUNT 5
 #define CIPHER_COMMANDS_AMOUNT 1
 
 static void			print_commands
@@ -61,12 +61,14 @@ static t_handler	get_command_handler
 	return (NULL);
 }
 
-int			main(int argc, char **argv)
+static int			process_params(int argc, char **argv)
 {
 	static t_command_handler	digest_commands[] = {
 		{"md5", md5_handler},
 		{"sha224", sha224_handler},
-		{"sha256", sha256_handler}
+		{"sha256", sha256_handler},
+		{"sha384", sha384_handler},
+		{"sha512", sha512_handler}
 	};
 	static t_command_handler	cipher_commands[] = {
 		{"base64", base64_handler}
@@ -74,16 +76,10 @@ int			main(int argc, char **argv)
 	t_handler					handler;
 	t_ssl						ssl;
 
-	if (argc < 2)
-	{
-		ft_printf(USAGE_MSG);
-		return (0);
-	}
-	ssl.command = argv[1];
-	ssl.argc = argc - 2;
-	ssl.argv = argv + 2;
-	handler = get_command_handler(ssl.command, digest_commands,
-		cipher_commands);
+	ssl.command = argv[0];
+	ssl.argc = argc - 1;
+	ssl.argv = argv + 1;
+	handler = get_command_handler(ssl.command, digest_commands, cipher_commands);
 	if (handler == NULL)
 	{
 		ft_printf("ft_ssl: Error: '%s' is an invalid command\n", ssl.command);
@@ -91,5 +87,39 @@ int			main(int argc, char **argv)
 	}
 	else
 		handler(&ssl);
+	return (0);
+}
+
+static int			listen_commands_from_stdin(void)
+{
+	char	buffer[1025];
+	char	**table;
+	int		argc;
+	int		r;
+
+	while (1)
+	{
+		ft_printf("ft_ssl> ");
+		if ((r = read(0, buffer, 1024)) > 0)
+		{
+			buffer[r] = '\0';
+			filter_str(buffer);
+			table = ft_strsplit(buffer, ' ');
+			argc = ft_get_table_size(table);
+			if (argc > 0)
+				process_params(argc, table);
+			ft_free_table(&table, argc);
+		}
+		else
+			return (0);
+	}
+}
+
+int					main(int argc, char **argv)
+{
+	if (argc < 2)
+		listen_commands_from_stdin();
+	else
+		process_params(argc - 1, argv + 1);
 	return (0);
 }

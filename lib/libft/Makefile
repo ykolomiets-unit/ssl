@@ -83,6 +83,7 @@ SRC :=			ft_memset.c		\
 				ft_lstmap.c		\
 				ft_strncat.c	\
 				ft_free_table.c \
+				ft_table_size.c \
 				ft_strupcase.c	\
 				ft_strlowcase.c	\
 				ft_atoi_base.c	\

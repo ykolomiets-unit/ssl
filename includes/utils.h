@@ -28,6 +28,15 @@ void	little_endian_words_to_bytes(t_word *words, t_byte *bytes,
 void	big_endian_words_to_bytes(t_word *words, t_byte *bytes,
 								uint32_t bytes_len);
 void	little_endian_dword_to_bytes(t_dword value, t_byte bytes[8]);
+
 void	big_endian_dword_to_bytes(t_dword value, t_byte bytes[8]);
+void	big_endian_dwords_to_bytes(t_dword *words, t_byte *bytes,
+								uint32_t bytes_len);
+
+void	bytes_to_big_endian_dwords(t_dword *words, t_byte *bytes,
+								uint32_t bytes_len);
+
+void	filter_str(char *buffer);
+
 
 #endif

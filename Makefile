@@ -13,6 +13,7 @@ HEADERS :=				ft_ssl.h						\
 						md5.h							\
 						utils.h							\
 						sha224_256.h					\
+						sha384_512.h					\
 						base64.h						\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
@@ -21,11 +22,17 @@ SRCS :=					md5_core.c						\
 						md5_transform.c					\
 						md5_driver.c					\
 						sha224_256_core.c				\
+						sha384_512_core.c				\
 						sha256_transform.c				\
+						sha512_transform.c				\
 						sha224_core.c					\
 						sha256_core.c					\
-						sha256_driver.c					\
+						sha384_core.c					\
+						sha512_core.c					\
 						sha224_driver.c					\
+						sha256_driver.c					\
+						sha384_driver.c					\
+						sha512_driver.c					\
 						utils1.c						\
 						utils2.c						\
 						error.c							\
@@ -52,7 +59,7 @@ LINK_FLAGS :=			$(LIBFT_LINK_FLAG)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LINK_FLAGS) -o $(NAME)
 
 $(OBJS): | $(OBJ_DIR)
@@ -62,6 +69,9 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: %.c $(HEADERS_DEP)
 	$(CC) -c $< -o $@ $(CC_FLAGS) $(INC_FLAGS)
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 clean:
 	rm -f $(OBJS)		

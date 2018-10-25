@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_table_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/21 20:39:40 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/21 20:39:41 by ykolomie         ###   ########.fr       */
+/*   Created: 2018/10/24 23:04:22 by ykolomie          #+#    #+#             */
+/*   Updated: 2018/10/24 23:04:28 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
-#include "libft.h"
-
-int	error(char *error_msg)
+int	ft_get_table_size(char **table)
 {
-	ft_printf("%s\n", error_msg);
-	return (-1);
+	int	i;
+
+	i = 0;
+	while (table[i])
+		i++;
+	return (i);
 }
-	

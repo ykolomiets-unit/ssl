@@ -67,11 +67,13 @@ typedef struct	s_base64_options
 	char		*output_file;
 }				t_base64_options;
 
-void			error(char *err_msg);
+int				error(char *err_msg);
 void			print_digest(unsigned char *digest, int size);
 void			md5_handler(t_ssl *ssl);
 void			sha224_handler(t_ssl *ssl);
 void			sha256_handler(t_ssl *ssl);
+void			sha384_handler(t_ssl *ssl);
+void			sha512_handler(t_ssl *ssl);
 void			base64_handler(t_ssl *ssl);
 void			process_digest(t_ssl *ssl, t_digest_help help);
 

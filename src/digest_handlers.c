@@ -13,6 +13,7 @@
 #include "ft_ssl.h"
 #include "md5.h"
 #include "sha224_256.h"
+#include "sha384_512.h"
 
 void	md5_handler(t_ssl *ssl)
 {
@@ -49,6 +50,32 @@ void	sha256_handler(t_ssl *ssl)
 	help.digest_of_string = sha256_string;
 	help.digest_of_file = sha256_file;
 	help.digest_of_stdin = sha256_filter;
+	help.something_processed = FALSE;
+	process_digest(ssl, help);
+}
+
+void	sha384_handler(t_ssl *ssl)
+{
+	t_digest_help	help;
+
+	help.algorithm_name = "SHA384";
+	help.digest_size = 48;
+	help.digest_of_string = sha384_string;
+	help.digest_of_file = sha384_file;
+	help.digest_of_stdin = sha384_filter;
+	help.something_processed = FALSE;
+	process_digest(ssl, help);
+}
+
+void	sha512_handler(t_ssl *ssl)
+{
+	t_digest_help	help;
+
+	help.algorithm_name = "SHA512";
+	help.digest_size = 64;
+	help.digest_of_string = sha512_string;
+	help.digest_of_file = sha512_file;
+	help.digest_of_stdin = sha512_filter;
 	help.something_processed = FALSE;
 	process_digest(ssl, help);
 }
