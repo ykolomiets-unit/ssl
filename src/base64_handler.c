@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 21:26:21 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/25 21:26:22 by ykolomie         ###   ########.fr       */
+/*   Updated: 2018/10/26 16:41:27 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,3 @@ void		base64_handler(t_ssl *ssl)
 	else
 		base64_decode_file_to_file(in, out);
 }
-

@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 15:37:31 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:37:32 by ykolomie         ###   ########.fr       */
+/*   Updated: 2018/10/26 16:42:46 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ void	bytes_to_big_endian_dwords(t_dword *words, t_byte *bytes,
 								uint32_t bytes_len);
 
 void	filter_str(char *buffer);
-
 
 #endif

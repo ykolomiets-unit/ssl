@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 21:10:10 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/25 21:10:11 by ykolomie         ###   ########.fr       */
+/*   Updated: 2018/10/26 16:42:21 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int			base64_decode
 	{
 		if (!IS_BASE64(in[in_pos], g_b64) || !IS_BASE64(in[in_pos + 1], g_b64))
 			return (-1);
-		*out++ = (g_b64[in[in_pos]] << 2) | (g_b64[in[in_pos + 1]] >> 4); 
+		*out++ = (g_b64[in[in_pos]] << 2) | (g_b64[in[in_pos + 1]] >> 4);
 		if (in_pos + 2 == in_size)
 			return (-1);
 		if (in[in_pos + 2] == '=')
@@ -123,7 +123,7 @@ int					base64_decode_file_to_file
 	int			r;
 	uint32_t	in_buf;
 	t_byte		input_buffer[ENCODED_SIZE];
-	int 		w;
+	int			w;
 	t_byte		output_buffer[DECODED_SIZE];
 
 	r = 0;
