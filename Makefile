@@ -47,6 +47,7 @@ SRCS :=					md5_core.c						\
 						base64_encode.c					\
 						hmac.c							\
 						pbkdf2_sha256.c					\
+						des_get_key_and_iv.c			\
 						main.c							\
 
 OBJ_DIR :=				./obj
