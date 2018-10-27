@@ -37,7 +37,7 @@ void		sha224_update
 void		sha224_final
 (
 	t_sha224_ctx *ctx,
-	t_byte digest[28]
+	t_byte digest[SHA224_DIGEST_SIZE]
 )
 {
 	sha224_256_final(ctx);

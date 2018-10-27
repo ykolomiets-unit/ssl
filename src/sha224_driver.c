@@ -17,7 +17,7 @@
 void	sha224_string
 (
 	char *string,
-	t_byte digest[28]
+	t_byte digest[SHA224_DIGEST_SIZE]
 )
 {
 	t_sha224_ctx	ctx;
@@ -30,7 +30,7 @@ void	sha224_string
 void	sha224_file
 (
 	int fd,
-	t_byte digest[28]
+	t_byte digest[SHA224_DIGEST_SIZE]
 )
 {
 	t_sha224_ctx	ctx;
@@ -45,7 +45,7 @@ void	sha224_file
 
 void	sha224_filter
 (
-	t_byte digest[28],
+	t_byte digest[SHA224_DIGEST_SIZE],
 	int echo
 )
 {

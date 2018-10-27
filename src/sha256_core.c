@@ -54,9 +54,9 @@ void		sha256_update
 void		sha256_final
 (
 	t_sha256_ctx *ctx,
-	t_byte digest[32]
+	t_byte digest[SHA256_DIGEST_SIZE]
 )
 {
 	sha224_256_final(ctx);
-	big_endian_words_to_bytes(ctx->state, digest, 32);
+	big_endian_words_to_bytes(ctx->state, digest, SHA256_DIGEST_SIZE);
 }

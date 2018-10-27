@@ -17,7 +17,7 @@
 void	sha256_string
 (
 	char *string,
-	t_byte digest[32]
+	t_byte digest[SHA256_DIGEST_SIZE]
 )
 {
 	t_sha256_ctx	ctx;
@@ -30,7 +30,7 @@ void	sha256_string
 void	sha256_file
 (
 	int fd,
-	t_byte digest[32]
+	t_byte digest[SHA256_DIGEST_SIZE]
 )
 {
 	t_sha256_ctx	ctx;
@@ -45,7 +45,7 @@ void	sha256_file
 
 void	sha256_filter
 (
-	t_byte digest[32],
+	t_byte digest[SHA256_DIGEST_SIZE],
 	int echo
 )
 {
