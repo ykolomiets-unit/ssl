@@ -14,6 +14,20 @@
 #include "libft.h"
 #include <unistd.h>
 
+void	sha256_buffer
+(
+	t_byte *buffer,
+	uint32_t buffer_size,
+	t_byte digest[SHA256_DIGEST_SIZE]
+)
+{
+	t_sha256_ctx	ctx;
+
+	sha256_init(&ctx);
+	sha256_update(&ctx, buffer, buffer_size);
+	sha256_final(&ctx, digest);
+}
+
 void	sha256_string
 (
 	char *string,

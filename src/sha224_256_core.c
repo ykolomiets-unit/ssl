@@ -28,7 +28,7 @@ void	sha224_256_init
 		ctx->state[i] = start_value[i];
 		i++;
 	}
-	ft_bzero(ctx->buffer, 64);
+	ft_bzero(ctx->buffer, SHA256_BLOCK_SIZE);
 }
 
 void	sha224_256_final
@@ -36,7 +36,7 @@ void	sha224_256_final
 	t_sha256_ctx *ctx
 )
 {
-	static t_byte	padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	static t_byte	padding[] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0 };

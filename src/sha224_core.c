@@ -41,5 +41,5 @@ void		sha224_final
 )
 {
 	sha224_256_final(ctx);
-	big_endian_words_to_bytes(ctx->state, digest, 28);
+	big_endian_words_to_bytes(ctx->state, digest, SHA224_DIGEST_SIZE);
 }

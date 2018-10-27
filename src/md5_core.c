@@ -59,7 +59,7 @@ void		md5_update
 void		md5_final
 (
 	t_md5_ctx *ctx,
-	t_byte digest[16]
+	t_byte digest[MD5_DIGEST_SIZE]
 )
 {
 	static t_byte	padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

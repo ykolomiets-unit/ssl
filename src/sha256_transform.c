@@ -13,7 +13,6 @@
 #include "sha224_256.h"
 #include "utils.h"
 
-#define ROTLEFT(a,b) (((a) << (b)) | ((a) >> (32-(b))))
 #define ROTRIGHT(a,b) (((a) >> (b)) | ((a) << (32-(b))))
 
 #define CH(x,y,z) (((x) & (y)) ^ (~(x) & (z)))
@@ -39,14 +38,14 @@ static t_word	g_k[64] = { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
 static void		initialize
 (
 	t_word x[64],
-	t_byte buffer[64],
+	t_byte buffer[SHA256_BLOCK_SIZE],
 	t_word state[8],
 	t_word abcdefgh[8]
 )
 {
 	int			i;
 
-	bytes_to_big_endian_words(x, buffer, 64);
+	bytes_to_big_endian_words(x, buffer, SHA256_BLOCK_SIZE);
 	i = 16;
 	while (i < 64)
 	{
@@ -70,7 +69,7 @@ void			add_new_state(t_word state[8], t_word new_state[8])
 void			sha256_transform
 (
 	t_word state[8],
-	t_byte buffer[64]
+	t_byte buffer[SHA256_BLOCK_SIZE]
 )
 {
 	t_word	x[64];

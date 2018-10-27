@@ -18,7 +18,7 @@
 void	md5_string
 (
 	char *string,
-	t_byte digest[16]
+	t_byte digest[MD5_DIGEST_SIZE]
 )
 {
 	t_md5_ctx	ctx;
@@ -31,7 +31,7 @@ void	md5_string
 void	md5_file
 (
 	int fd,
-	t_byte digest[16]
+	t_byte digest[MD5_DIGEST_SIZE]
 )
 {
 	t_md5_ctx	ctx;
@@ -46,7 +46,7 @@ void	md5_file
 
 void	md5_filter
 (
-	t_byte digest[16],
+	t_byte digest[MD5_DIGEST_SIZE],
 	int echo
 )
 {

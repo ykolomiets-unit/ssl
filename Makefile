@@ -15,6 +15,8 @@ HEADERS :=				ft_ssl.h						\
 						sha224_256.h					\
 						sha384_512.h					\
 						base64.h						\
+						hmac.h							\
+						des.h							\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
@@ -42,6 +44,8 @@ SRCS :=					md5_core.c						\
 						print_digest.c					\
 						base64_decode.c					\
 						base64_encode.c					\
+						hmac.c							\
+						pbkdf2_sha256.c					\
 						main.c							\
 
 OBJ_DIR :=				./obj
