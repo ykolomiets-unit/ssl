@@ -45,7 +45,7 @@ static void	f
 		hmac_sha256(hmac_params, buffer);
 }
 
-int			pbkfd2_hmac_sha256(t_pbkdf2_params params)
+int			pbkdf2_hmac_sha256(t_pbkdf2_params params)
 {
 	int		l;
 	int		r;
@@ -54,15 +54,17 @@ int			pbkfd2_hmac_sha256(t_pbkdf2_params params)
 
 	l = params.dk_len / SHA256_DIGEST_SIZE;
 	r = params.dk_len % SHA256_DIGEST_SIZE;
-	l = r ? l + 1 : l;
 	i = 0;
-	while (i < l - 1)
+	while (i < l)
 	{
 		f(params, i, temp);
 		ft_memcpy(params.dk + i * SHA256_DIGEST_SIZE, temp, SHA256_DIGEST_SIZE);
 		i++;
 	}
-	f(params, i, temp);
-	ft_memcpy(params.dk + i * SHA256_DIGEST_SIZE, temp, r);
+	if (r)
+	{
+		f(params, i, temp);
+		ft_memcpy(params.dk + i * SHA256_DIGEST_SIZE, temp, r);
+	}
 	return (0);
 }
