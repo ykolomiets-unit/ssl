@@ -13,7 +13,7 @@
 #ifndef SHA384_512_H
 # define SHA384_512_H
 
-# include "utils.h"
+# include "types.h"
 
 typedef struct			s_sha512_ctx
 {

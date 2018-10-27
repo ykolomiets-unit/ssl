@@ -13,7 +13,7 @@
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
-# include "utils.h"
+# include "types.h"
 
 # define FALSE 0
 # define TRUE 1

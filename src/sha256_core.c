@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "sha224_256.h"
+#include "utils.h"
 #include "libft.h"
 
 void		sha256_init(t_sha256_ctx *ctx)

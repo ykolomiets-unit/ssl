@@ -13,11 +13,7 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include <inttypes.h>
-
-typedef unsigned char	t_byte;
-typedef uint32_t		t_word;
-typedef uint64_t		t_dword;
+# include "types.h"
 
 void	bytes_to_little_endian_words(t_word *words, t_byte *bytes,
 									uint32_t bytes_len);

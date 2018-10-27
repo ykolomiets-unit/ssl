@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "sha384_512.h"
+#include "utils.h"
 #include "libft.h"
 
 void		sha384_init(t_sha384_ctx *ctx)

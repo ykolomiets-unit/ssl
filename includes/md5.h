@@ -13,7 +13,7 @@
 #ifndef MD5_H
 # define MD5_H
 
-# include "utils.h"
+# include "types.h"
 
 # define MD5_BLOCK_SIZE 64
 # define MD5_DIGEST_SIZE 16

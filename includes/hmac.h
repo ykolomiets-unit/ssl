@@ -13,7 +13,7 @@
 #ifndef HMAC_H
 # define HMAC_H
 
-# include "utils.h"
+# include "types.h"
 # include "md5.h"
 # include "sha224_256.h"
 

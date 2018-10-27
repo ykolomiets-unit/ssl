@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "ft_ssl.h"
+#include "utils.h"
 #include <unistd.h>
 
 #define USAGE_MSG "usage: ft_ssl command [command opts] [command args]\n"

@@ -13,12 +13,12 @@
 #ifndef SHA224_256_H
 # define SHA224_256_H
 
+# include "types.h"
+
 # define SHA224_BLOCK_SIZE 64
 # define SHA256_BLOCK_SIZE 64
 # define SHA224_DIGEST_SIZE 28
 # define SHA256_DIGEST_SIZE 32
-
-# include "utils.h"
 
 typedef struct			s_sha256_ctx
 {

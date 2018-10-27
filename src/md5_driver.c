@@ -13,7 +13,6 @@
 #include "md5.h"
 #include "libft.h"
 #include <unistd.h>
-#include <stdio.h>
 
 void	md5_string
 (

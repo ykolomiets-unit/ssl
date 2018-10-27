@@ -16,6 +16,7 @@ HEADERS :=				ft_ssl.h						\
 						sha384_512.h					\
 						base64.h						\
 						hmac.h							\
+						pbkdf2.h						\
 						des.h							\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
