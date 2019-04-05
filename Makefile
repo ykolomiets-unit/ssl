@@ -16,6 +16,7 @@ HEADERS :=				ft_ssl.h						\
 						sha384_512.h					\
 						base64.h						\
 						hmac_sha256.h					\
+						pbkdf2.h						\
 						des.h							\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
@@ -45,6 +46,7 @@ SRCS :=					md5_core.c						\
 						base64_decode.c					\
 						base64_encode.c					\
 						hmac_sha256.c					\
+						pbkdf2.c						\
 						des_get_key_and_iv.c			\
 
 MAIN :=					main.c

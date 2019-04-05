@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "hmac_sha256.h"
+#include "pbkdf2.h"
 #include "ft_ssl.h"
 
 #define RUN_GROUP(group) do {ft_printf("\n"#group":\n"); group();} while(0)
@@ -30,7 +31,7 @@ char*	convert_digest_to_string(t_byte *digest, int digest_size)
 }
 
 
-int	test1()
+int	hmac_test1()
 {
 	t_hmac_params	params;
 	t_byte 			result[SHA256_DIGEST_SIZE];
@@ -46,7 +47,7 @@ int	test1()
 	return 0;
 }
 
-int	test2()
+int	hmac_test2()
 {
 	t_hmac_params	params;
 	t_byte 			result[SHA256_DIGEST_SIZE];
@@ -62,14 +63,55 @@ int	test2()
 	return 0;
 }
 
+int	hmac_test3()
+{
+	t_hmac_params	params;
+	t_byte 			result[SHA256_DIGEST_SIZE];
+
+	params.key = (t_byte *)"password";
+	params.key_length = ft_strlen((char *)params.key);
+	t_byte message[] = {'s', 'a', 'l', 't', 0, 0, 0, 1};
+	params.message = message;
+	params.message_length = sizeof(message);
+	hmac_sha256(params, result);
+	char *converted = convert_digest_to_string(result, SHA256_DIGEST_SIZE);
+	if (ft_strcmp(converted, "120fb6cffcf8b32c43e7225256c4f837a86548c92ccc35480805987cb70be17b"))
+		return 1;
+	return 0;
+}
+
 int hmac_tests()
 {
-	RUN_TEST(test1);
-	RUN_TEST(test2);
+	RUN_TEST(hmac_test1);
+	RUN_TEST(hmac_test2);
+	RUN_TEST(hmac_test3);
+	return 0;
+}
+
+int pbkdf2_test1()
+{
+	t_pbkdf2_params params;
+	t_byte			result[40];
+
+	params.password = "password";
+	params.salt = (t_byte *)"salt";
+	params.salt_length = ft_strlen((char *)params.salt);
+	params.iteration_count = 16777216;
+	pbkdf2(params, result, 32);
+	char *converted = convert_digest_to_string(result, 32);
+	ft_printf("%s\n", converted);
+
+	return 0;
+}
+
+int pbkdf2_tests()
+{
+	RUN_TEST(pbkdf2_test1);
 	return 0;
 }
 
 int main()
 {
 	RUN_GROUP(hmac_tests);
+	RUN_GROUP(pbkdf2_tests);
 }
