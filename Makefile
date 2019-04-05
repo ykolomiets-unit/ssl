@@ -15,8 +15,7 @@ HEADERS :=				ft_ssl.h						\
 						sha224_256.h					\
 						sha384_512.h					\
 						base64.h						\
-						hmac.h							\
-						pbkdf2.h						\
+						hmac_sha256.h					\
 						des.h							\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
@@ -45,20 +44,26 @@ SRCS :=					md5_core.c						\
 						print_digest.c					\
 						base64_decode.c					\
 						base64_encode.c					\
-						hmac.c							\
-						pbkdf2_sha256.c					\
+						hmac_sha256.c					\
 						des_get_key_and_iv.c			\
-						main.c							\
+
+MAIN :=					main.c
 
 OBJ_DIR :=				./obj
 OBJS :=					$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
+TEST_DIR :=				./t
+TEST_EXEC :=			$(TEST_DIR)/test
+TEST_OBJ_DIR :=			$(TEST_DIR)/obj
+
+TEST_SRCS :=			run_tests.c						\
+
+TEST_OBJS :=			$(addprefix $(TEST_OBJ_DIR)/, $(TEST_SRCS:.c=.o))
+
 CC :=					clang
 
-CC_FLAGS :=				-Wall
-CC_FLAGS +=				-Wextra
-CC_FLAGS +=				-Werror
-CC_FLAGS +=				-g
+CC_FLAGS :=				-Wall -Wextra -Werror
+TEST_CC_FLAGS :=		-Wall -Wextra
 
 INC_FLAGS :=			$(addprefix -I, $(INC_DIR) $(LIBFT_INC))
 
@@ -80,6 +85,21 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS_DEP)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
+test: $(TEST_EXEC)
+	clear
+	./$(TEST_EXEC)
+
+$(TEST_EXEC): $(OBJS) $(TEST_OBJS)
+	$(CC) $(TEST_OBJS) $(OBJS) $(LINK_FLAGS) -o $(TEST_EXEC) 
+
+$(TEST_OBJS): | $(TEST_OBJ_DIR)
+
+$(TEST_OBJ_DIR):
+	mkdir -p $(TEST_OBJ_DIR)
+
+$(TEST_OBJ_DIR)/%.o: %.c
+	$(CC) -c $< -o $@ $(TEST_CC_FLAGS) $(INC_FLAGS)
+
 clean:
 	rm -f $(OBJS)		
 
@@ -89,6 +109,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all test clean fclean re
+.PHONY: all clean fclean re
 
-vpath %.c		$(SRC_DIR)
+vpath %.c		$(SRC_DIR) $(TEST_DIR)

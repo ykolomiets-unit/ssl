@@ -120,10 +120,10 @@ int					base64_decode_file_to_file
 	int output
 )
 {
-	int			r;
+	int			  r;
 	uint32_t	in_buf;
 	t_byte		input_buffer[ENCODED_SIZE];
-	int			w;
+	int			  w;
 	t_byte		output_buffer[DECODED_SIZE];
 
 	r = 0;

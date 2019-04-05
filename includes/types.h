@@ -16,7 +16,7 @@
 # include <inttypes.h>
 
 typedef unsigned char	t_byte;
-typedef uint32_t		t_word;
-typedef uint64_t		t_dword;
+typedef uint32_t		  t_word;
+typedef uint64_t		  t_dword;
 
 #endif
