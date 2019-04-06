@@ -1,6 +1,8 @@
 ft_ssl
+test
 
 *.o
+*.swo
 *.swp
 *.DS_Store
 .vscode/

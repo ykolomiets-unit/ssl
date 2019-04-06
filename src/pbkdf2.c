@@ -40,8 +40,8 @@ static	void f(t_pbkdf2_params params, uint32_t block_num, t_byte block[HMAC_SHA2
 	uint32_t		i;
 
 	salt_and_block_num = allocate(params.salt, params.salt_length, block_num);
-	hmac_params.key = (t_byte *)params.password;
-	hmac_params.key_length = ft_strlen(params.password);
+	hmac_params.key = params.password;
+	hmac_params.key_length = params.password_length;
 	hmac_params.message = salt_and_block_num;
 	hmac_params.message_length = params.salt_length + sizeof(block_num);
 	hmac_sha256(hmac_params, block);

@@ -5,7 +5,8 @@
 
 typedef struct	s_pbkdf2_params
 {
-	char		*password;
+	t_byte		*password;
+	uint32_t	password_length;
 	t_byte		*salt;
 	uint32_t	salt_length;
 	uint32_t	iteration_count;

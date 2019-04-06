@@ -59,6 +59,8 @@ TEST_EXEC :=			$(TEST_DIR)/test
 TEST_OBJ_DIR :=			$(TEST_DIR)/obj
 
 TEST_SRCS :=			run_tests.c						\
+						hmac_tests.c					\
+						pbkdf2_tests.c					\
 
 TEST_OBJS :=			$(addprefix $(TEST_OBJ_DIR)/, $(TEST_SRCS:.c=.o))
 
