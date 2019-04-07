@@ -5,4 +5,5 @@ int main()
 {
 	RUN_GROUP(hmac_tests);
 	RUN_GROUP(pbkdf2_tests);
+	RUN_GROUP(des_tests);
 }

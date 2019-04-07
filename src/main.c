@@ -21,7 +21,7 @@
 #define CIPHER_COMMANDS "Cipher commands: "
 
 #define DIGEST_COMMANDS_AMOUNT 5
-#define CIPHER_COMMANDS_AMOUNT 1
+#define CIPHER_COMMANDS_AMOUNT 2
 
 static const t_command_handler	g_digest_commands[] = {
 	{"md5", md5_handler},
@@ -32,7 +32,8 @@ static const t_command_handler	g_digest_commands[] = {
 };
 
 static const t_command_handler	g_cipher_commands[] = {
-	{"base64", base64_handler}
+	{"base64", base64_handler},
+	{"des", des_handler}
 };
 
 static void						print_commands(void)

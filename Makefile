@@ -48,11 +48,17 @@ SRCS :=					md5_core.c						\
 						hmac_sha256.c					\
 						pbkdf2.c						\
 						des_get_key_and_iv.c			\
+						des_handler.c					\
+						des.c							\
 
 MAIN :=					main.c
 
 OBJ_DIR :=				./obj
-OBJS :=					$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+CORE_OBJS :=			$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+
+OBJS := 				$(CORE_OBJS) \
+						$(addprefix $(OBJ_DIR)/, $(MAIN:.c=.o))
+
 
 TEST_DIR :=				./t
 TEST_EXEC :=			$(TEST_DIR)/test
@@ -61,6 +67,7 @@ TEST_OBJ_DIR :=			$(TEST_DIR)/obj
 TEST_SRCS :=			run_tests.c						\
 						hmac_tests.c					\
 						pbkdf2_tests.c					\
+						des_tests.c						\
 
 TEST_OBJS :=			$(addprefix $(TEST_OBJ_DIR)/, $(TEST_SRCS:.c=.o))
 
@@ -93,8 +100,8 @@ test: $(TEST_EXEC)
 	clear
 	./$(TEST_EXEC)
 
-$(TEST_EXEC): $(OBJS) $(TEST_OBJS)
-	$(CC) $(TEST_OBJS) $(OBJS) $(LINK_FLAGS) -o $(TEST_EXEC) 
+$(TEST_EXEC): $(CORE_OBJS) $(TEST_OBJS)
+	$(CC) $(TEST_OBJS) $(CORE_OBJS) $(LINK_FLAGS) -o $(TEST_EXEC) 
 
 $(TEST_OBJS): | $(TEST_OBJ_DIR)
 

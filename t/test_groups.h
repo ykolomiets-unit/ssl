@@ -3,5 +3,6 @@
 
 int	hmac_tests(void);
 int	pbkdf2_tests(void);
+int	des_tests(void);
 
 #endif
