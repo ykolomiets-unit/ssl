@@ -12,7 +12,7 @@ static const int g_pc1[56] = {
 	21, 13,  5, 28, 20, 12,  4
 };
 
-static const int rotations[16] = {
+static const int g_rotations[16] = {
 	1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
 };
 
@@ -43,19 +43,40 @@ uint64_t	apply_pc1(uint64_t key)
 	return (res);
 }
 
-void	generate_subkeys(uint64_t key, uint64_t subkeys[16])
+uint64_t	apply_pc2(uint64_t c, uint64_t d)
 {
-	uint64_t	t;
+	uint64_t	temp;
+	uint64_t	res;
 	int			i;
 
-	(void)subkeys;
-	(void)g_pc2;
-	(void)rotations;
-
-	t = apply_pc1(key);
-	i = 0;
-	while (i < 16)
+	temp = (c << 36) | (d << 8);
+	res = 0;
+	i = 1;
+	while (i <= 48)
 	{
+		uint64_t t = MOVE_BIT(temp, (64 - g_pc2[i - 1]), 64 - i);
+		res |= t;
+		i++;
+	}
+	res >>= 16;
+	return (res);
+}
 
+void	generate_subkeys(uint64_t key, uint64_t subkeys[16])
+{
+	uint32_t	c;
+	uint32_t	d;
+	int			i;
+
+	key = apply_pc1(key);
+	c = key >> 36;
+	d = (key >> 8) & 0xFFFFFFF;
+	i = 1;
+	while (i <= 16)
+	{
+		c = ROL28(c, g_rotations[i - 1]);
+		d = ROL28(d, g_rotations[i - 1]);
+		subkeys[i - 1] = apply_pc2(c, d);
+		i++;
 	}
 }

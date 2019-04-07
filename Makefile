@@ -73,8 +73,8 @@ TEST_OBJS :=			$(addprefix $(TEST_OBJ_DIR)/, $(TEST_SRCS:.c=.o))
 
 CC :=					clang
 
-CC_FLAGS :=				-Wall -Wextra -Werror
-TEST_CC_FLAGS :=		-Wall -Wextra
+CC_FLAGS :=				-Wall -Wextra -Werror -g -O0
+TEST_CC_FLAGS :=		-Wall -Wextra -g -O0
 
 INC_FLAGS :=			$(addprefix -I, $(INC_DIR) $(LIBFT_INC))
 
@@ -113,10 +113,12 @@ $(TEST_OBJ_DIR)/%.o: %.c
 
 clean:
 	rm -f $(OBJS)		
+	rm -f $(TEST_OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 	rm -rf $(OBJ_DIR)
+	rm -rf $(TEST_OBJ_DIR)
 
 re: fclean all
 
