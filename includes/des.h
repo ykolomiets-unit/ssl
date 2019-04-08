@@ -25,10 +25,5 @@ void		des_get_key_and_iv(char *pass, uint64_t salt,
 
 void		generate_subkeys(uint64_t key, uint64_t subkeys[16]);
 void		des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[DES_BLOCK_SIZE]);
-uint64_t	apply_ip(uint64_t m);
-uint64_t	expand(uint64_t m);
-uint64_t	substitude(uint64_t m);
-uint64_t	permute(uint64_t m);
-uint64_t	apply_fp(uint64_t m);
 
 #endif

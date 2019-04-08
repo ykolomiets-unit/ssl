@@ -34,61 +34,6 @@ static int subkeys()
 	return (0);
 }
 
-static int	initial_permutation()
-{
-	uint64_t	m = 0b0000000100100011010001010110011110001001101010111100110111101111;
-	uint64_t	expected = 0b1100110000000000110011001111111111110000101010101111000010101010;
-	
-	uint64_t res = apply_ip(m);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
-static int	expansion()
-{
-	uint64_t	m = 0b11110000101010101111000010101010L << 32;
-	uint64_t	expected = 0b011110100001010101010101011110100001010101010101 << 16;
-
-	uint64_t	res = expand(m);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
-static int	substitution()
-{
-	uint64_t	m = 0b011000010001011110111010100001100110010100100111 << 16;
-	uint64_t	expected = 0b01011100100000101011010110010111L << 32;
-
-	uint64_t	res = substitude(m);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
-static int	round_permutation()
-{
-	uint64_t	m = 0b01011100100000101011010110010111L << 32;
-	uint64_t	expected = 0b00100011010010101010100110111011L << 32;
-
-	uint64_t	res = permute(m);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
-static int	final_permutation()
-{
-	uint64_t	m = 0b0000101001001100110110011001010101000011010000100011001000110100;
-	uint64_t	expected = 0b1000010111101000000100110101010000001111000010101011010000000101;
-	
-	uint64_t res = apply_fp(m);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
 static int	block_encryption()
 {
 	t_byte		message[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF};
@@ -108,11 +53,6 @@ static int	block_encryption()
 int	des_tests()
 {
 	RUN_TEST(subkeys);
-	RUN_TEST(initial_permutation);
-	RUN_TEST(expansion);
-	RUN_TEST(substitution);
-	RUN_TEST(round_permutation);
-	RUN_TEST(final_permutation);
 	RUN_TEST(block_encryption);
 	return (0);
 }
