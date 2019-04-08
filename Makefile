@@ -49,7 +49,8 @@ SRCS :=					md5_core.c						\
 						pbkdf2.c						\
 						des_get_key_and_iv.c			\
 						des_handler.c					\
-						des.c							\
+						des_keys.c						\
+						des_core.c						\
 
 MAIN :=					main.c
 
@@ -113,12 +114,10 @@ $(TEST_OBJ_DIR)/%.o: %.c
 
 clean:
 	rm -f $(OBJS)		
-	rm -f $(TEST_OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 	rm -rf $(OBJ_DIR)
-	rm -rf $(TEST_OBJ_DIR)
 
 re: fclean all
 
