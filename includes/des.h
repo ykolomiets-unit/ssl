@@ -21,7 +21,6 @@
 void		des_get_key_and_iv(char *pass, uint64_t salt,
 				uint64_t key, uint64_t iv);
 
-uint64_t	apply_pc1(uint64_t key);
 void		generate_subkeys(uint64_t key, uint64_t subkeys[16]);
 
 #endif

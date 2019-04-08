@@ -28,7 +28,7 @@ static const int g_pc2[48] = {
 };
 
 
-uint64_t	apply_pc1(uint64_t key)
+static uint64_t	apply_pc1(uint64_t key)
 {
 	uint64_t	res;
 	int			i;
@@ -43,7 +43,7 @@ uint64_t	apply_pc1(uint64_t key)
 	return (res);
 }
 
-uint64_t	apply_pc2(uint64_t c, uint64_t d)
+static uint64_t	apply_pc2(uint64_t c, uint64_t d)
 {
 	uint64_t	temp;
 	uint64_t	res;

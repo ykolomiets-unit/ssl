@@ -1,5 +1,5 @@
 ft_ssl
-test
+./t/test
 
 *.o
 *.swo

@@ -2,29 +2,6 @@
 #include "test_groups.h"
 #include "des.h"
 
-static int	move_bit()
-{
-	uint64_t v = 0x10;
-
-
-	uint64_t res = MOVE_BIT(v, 4, 12);
-	uint64_t expected = 0x1 << 12;
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
-static int  pc1()
-{
-	uint64_t	key = 0x133457799BBCDFF1;
-	uint64_t	expected = 0xF0CCAAF556678F00;
-
-	uint64_t	res = apply_pc1(key);
-	if (res != expected)
-		return (1);
-	return (0);
-}
-
 static int subkeys()
 {
 	uint64_t	key = 0x133457799BBCDFF1;
@@ -59,8 +36,6 @@ static int subkeys()
 
 int	des_tests()
 {
-	RUN_TEST(move_bit);
-	RUN_TEST(pc1);
 	RUN_TEST(subkeys);
 	return (0);
 }
