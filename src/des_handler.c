@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static int	get_option_value
 (
@@ -124,7 +125,7 @@ static int	open_output_file(char *file_name)
 	return (fd);
 }
 
-static void	print_options(t_des_options *options)
+void	print_options(t_des_options *options)
 {
 	ft_printf("Options: \n");
 	ft_printf("\tdecrypt = %s\n", options->decode ? "true" : "false");
@@ -149,45 +150,26 @@ static t_byte	get_4bits_value(char c)
 	return (0xff);
 }
 
-static int	parse_hex(char *str, t_byte *result, uint32_t size)
+static int	parse_hex(char *str, uint64_t *res)
 {
 	uint32_t	i;
-	uint32_t	j;
-	t_byte		four_bits;
+	uint64_t	temp;
 
 	i = 0;
-	j = 0;
-	ft_bzero(result, size);
-	while (*str && i < size)
+	*res = 0;
+	while (*str && i < 16)
 	{
-		four_bits = get_4bits_value(*str);
-		if (four_bits == 0xff)
+		temp = get_4bits_value(*str);
+		if (temp == 0xff)
 			return (-1);
-		if (j % 2 == 0)
-			result[i] = (four_bits << 4);
-		else
-		{
-			result[i] |= four_bits;
-			i++;
-		}
-		j++;
+		temp <<= (15 - i) * 4;
+		*res |= temp;
+		i++;
 		str++;
 	}
 	if (*str)
 		return (-2);
 	return (0);
-}
-
-static void	print_bytes_in_hex(t_byte *bytes, uint32_t size)
-{
-	uint32_t i;
-
-	i = 0;
-	while (i < size)
-	{
-		ft_printf("%4.2x", bytes[i]);
-		i++;
-	}
 }
 
 void		des_handler(t_ssl *ssl)
@@ -212,19 +194,44 @@ void		des_handler(t_ssl *ssl)
 		ft_printf("Choose one option: encode (default) or decode\n");
 		exit(1);
 	}
-	print_options(&options);
+	uint64_t	key;
+	parse_hex(options.key, &key);
+	des_ecb_encode(key, in, out);
+}
 
-	t_byte salt[8];
-	int err;
+void		add_padding(int filled, t_byte block[DES_BLOCK_SIZE])
+{
+	int	value;
 
-	err = parse_hex(options.salt, salt, 8);
-	if (err)
+	value = DES_BLOCK_SIZE - filled;
+	while (filled < DES_BLOCK_SIZE)
 	{
-		if (err == -1)
-			ft_printf("UNKNOWN SYMBOL\n");
-		else if (err == -2)
-			ft_printf("HEX STRING IS TOO LONG\n");
-		exit(err);
+		block[filled] = value;
+		filled++;
 	}
-	print_bytes_in_hex(salt, 8);
+}
+
+void		des_ecb_encode(uint64_t key, int in, int out)
+{
+	uint64_t	subkeys[16];
+	t_byte		block[DES_BLOCK_SIZE];
+	int			r;
+	uint32_t	in_buf;
+
+	generate_subkeys(key, subkeys);
+	r = 0;
+	in_buf = 0;
+	while ((r = read(in, block + in_buf, DES_BLOCK_SIZE - in_buf)) > 0)
+	{
+		in_buf += r;
+		if (in_buf == DES_BLOCK_SIZE)
+		{
+			des_core(subkeys, block, block);
+			write(out, block, DES_BLOCK_SIZE);
+			in_buf = 0;
+		}
+	}
+	add_padding(in_buf, block);
+	des_core(subkeys, block, block);
+	write(out, block, DES_BLOCK_SIZE);
 }

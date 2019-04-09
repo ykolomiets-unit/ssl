@@ -20,10 +20,10 @@
 
 # define DES_BLOCK_SIZE 8
  
-void		des_get_key_and_iv(char *pass, uint64_t salt,
-				uint64_t key, uint64_t iv);
+void	des_get_key_and_iv(char *pass, uint64_t salt, uint64_t key, uint64_t iv);
+void	generate_subkeys(uint64_t key, uint64_t subkeys[16]);
+void	des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[DES_BLOCK_SIZE]);
 
-void		generate_subkeys(uint64_t key, uint64_t subkeys[16]);
-void		des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[DES_BLOCK_SIZE]);
+void	des_ecb_encode(uint64_t key, int in, int out);
 
 #endif
