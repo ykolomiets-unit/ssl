@@ -19,11 +19,15 @@
 # define ROL28(a, n) ((((a) << (n)) | ((a) >> (28 - (n)))) & 0x0FFFFFFF)
 
 # define DES_BLOCK_SIZE 8
+
+# define ENCODE 0
+# define DECODE 1
  
 void	des_get_key_and_iv(char *pass, uint64_t salt, uint64_t key, uint64_t iv);
-void	generate_subkeys(uint64_t key, uint64_t subkeys[16]);
+void	generate_subkeys(uint64_t key, uint64_t subkeys[16], int mode);
 void	des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[DES_BLOCK_SIZE]);
 
 void	des_ecb_encode(uint64_t key, int in, int out);
+void	des_ecb_decode(uint64_t key, int in, int out);
 
 #endif

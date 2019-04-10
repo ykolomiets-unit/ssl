@@ -61,11 +61,12 @@ static uint64_t	apply_pc2(uint64_t c, uint64_t d)
 	return (res);
 }
 
-void	generate_subkeys(uint64_t key, uint64_t subkeys[16])
+void	generate_subkeys(uint64_t key, uint64_t subkeys[16], int mode)
 {
 	uint32_t	c;
 	uint32_t	d;
 	int			i;
+	uint64_t	temp;
 
 	key = apply_pc1(key);
 	c = key >> 36;
@@ -77,5 +78,13 @@ void	generate_subkeys(uint64_t key, uint64_t subkeys[16])
 		d = ROL28(d, g_rotations[i - 1]);
 		subkeys[i - 1] = apply_pc2(c, d);
 		i++;
+	}
+	if (mode == DECODE) {
+		i = -1;
+		while (++i < 8) {
+			temp = subkeys[i];
+			subkeys[i] = subkeys[15 - i];
+			subkeys[15 - i] = temp;
+		}
 	}
 }
