@@ -1,5 +1,6 @@
 #include "des.h"
 #include "libft.h"
+#include "utils.h"
 #include <unistd.h>
 
 typedef struct	s_des_ctx
@@ -64,14 +65,14 @@ static void		des_ecb_final(t_des_ctx *ctx)
 	}
 }
 
-void		des_ecb_encode(uint64_t key, int in, int out)
+void		des_ecb_encode(t_byte key[DES_KEY_LENGTH], int in, int out)
 {
 	t_des_ctx	ctx;
 	t_byte		buffer[4096];
 	int			r;
 
 	ctx.mode = ENCODE;
-	ctx.key = key;
+	bytes_to_big_endian_dwords(&ctx.key, key, DES_KEY_LENGTH);
 	ctx.out = out;
 	des_ecb_init(&ctx);
 	r = 0;
@@ -80,14 +81,14 @@ void		des_ecb_encode(uint64_t key, int in, int out)
 	des_ecb_final(&ctx);
 }
 
-void		des_ecb_decode(uint64_t key, int in, int out)
+void		des_ecb_decode(t_byte key[DES_KEY_LENGTH], int in, int out)
 {
 	t_des_ctx	ctx;
 	t_byte		buffer[4096];
 	int			r;
 
 	ctx.mode = DECODE;
-	ctx.key = key;
+	bytes_to_big_endian_dwords(&ctx.key, key, DES_KEY_LENGTH);
 	ctx.out = out;
 	des_ecb_init(&ctx);
 	r = 0;

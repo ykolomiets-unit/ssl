@@ -14,6 +14,7 @@
 # define FT_SSL_H
 
 # include "types.h"
+# include "des.h"
 
 # define FALSE 0
 # define TRUE 1
@@ -72,12 +73,15 @@ typedef struct	s_des_options
 	t_bool		encode;
 	t_bool		decode;
 	t_bool		base64;
-	char		*input_file;
-	char		*output_file;
-	char		*key;
+	int			input_file;
+	int			output_file;
+	t_byte		key[DES_KEY_LENGTH];
+	t_bool		key_present;
+	t_byte		salt[DES_SALT_LENGTH];
+	t_bool		salt_present;
+	t_byte		initial_vector[DES_IV_LENGTH];
+	t_bool		initial_vector_present;
 	char		*password;
-	char		*salt;
-	char		*initial_vector;
 }				t_des_options;
 
 int				error(char *err_msg);
@@ -88,7 +92,7 @@ void			sha256_handler(t_ssl *ssl);
 void			sha384_handler(t_ssl *ssl);
 void			sha512_handler(t_ssl *ssl);
 void			base64_handler(t_ssl *ssl);
-void			des_handler(t_ssl *ssl);
+void			des_ecb_handler(t_ssl *ssl);
 void			process_digest(t_ssl *ssl, t_digest_help help);
 
 #endif
