@@ -25,7 +25,7 @@ static int subkeys()
 		0b1100101100111101100010110000111000010111111101010000000000000000
 	};
 
-	generate_subkeys(key, subkeys);
+	des_key_schedule(key, subkeys, ENCODE);
 	for (int i = 0; i < 16; i++) 
 	{
 		if (subkeys[i] != expected[i])
@@ -42,7 +42,7 @@ static int	block_encryption()
 	uint64_t	key = 0x133457799BBCDFF1;
 	uint64_t	subkeys[16];
 
-	generate_subkeys(key, subkeys);
+	des_key_schedule(key, subkeys, ENCODE);
 	des_core(subkeys, message, output);
 	for (int i = 0; i < 8; i++)
 		if (output[i] != expected[i])

@@ -51,6 +51,8 @@ SRCS :=					md5_core.c						\
 						des_handler.c					\
 						des_keys.c						\
 						des_core.c						\
+						des_padding.c					\
+						des_ecb.c						\
 
 MAIN :=					main.c
 

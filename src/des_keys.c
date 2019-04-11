@@ -61,7 +61,7 @@ static uint64_t	apply_pc2(uint64_t c, uint64_t d)
 	return (res);
 }
 
-void	generate_subkeys(uint64_t key, uint64_t subkeys[16], int mode)
+void	des_key_schedule(uint64_t key, uint64_t subkeys[16], int mode)
 {
 	uint32_t	c;
 	uint32_t	d;
