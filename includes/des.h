@@ -26,7 +26,17 @@
 # define ENCODE 0
 # define DECODE 1
 
-void	des_get_key_and_iv(char *pass, uint64_t salt, uint64_t key, uint64_t iv);
+typedef struct	s_pbkdf_params
+{
+	t_bool		use_pbkdf2;
+	t_bool		generate_salt;
+	t_byte		*salt;
+	t_byte		*key;
+	t_byte		*iv;
+	char		*password;
+}				t_pbkdf_params;
+
+int		des_derive_key_from_password(t_pbkdf_params *options);
 void	des_add_padding(int filled, t_byte block[DES_BLOCK_SIZE]);
  
 void	des_key_schedule(uint64_t key, uint64_t subkeys[16], int mode);

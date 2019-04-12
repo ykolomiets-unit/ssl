@@ -13,10 +13,15 @@
 #ifndef TYPES_H
 # define TYPES_H
 
+# define FALSE 0
+# define TRUE 1
+
 # include <inttypes.h>
 
 typedef unsigned char	t_byte;
-typedef uint32_t		  t_word;
-typedef uint64_t		  t_dword;
+typedef uint32_t		t_word;
+typedef uint64_t		t_dword;
+typedef int				t_bool;
+
 
 #endif

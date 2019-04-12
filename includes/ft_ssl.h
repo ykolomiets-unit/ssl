@@ -16,9 +16,6 @@
 # include "types.h"
 # include "des.h"
 
-# define FALSE 0
-# define TRUE 1
-
 typedef enum	e_source_type
 {
 	SOURCE_FILE,
@@ -40,8 +37,6 @@ typedef struct	s_command_handler
 	char		*command;
 	t_handler	handler;
 }				t_command_handler;
-
-typedef int		t_bool;
 
 typedef struct	s_digest_flags
 {
@@ -81,6 +76,7 @@ typedef struct	s_des_options
 	t_bool		salt_present;
 	t_byte		initial_vector[DES_IV_LENGTH];
 	t_bool		initial_vector_present;
+	t_bool		use_pbkdf2;
 	char		*password;
 }				t_des_options;
 

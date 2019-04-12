@@ -210,6 +210,16 @@ static int	password_option_handler(int pos, int argc, char **argv, t_des_options
 	return (2);
 }
 
+static int	pbkdf2_option_handler(int pos, int argc, char **argv, t_des_options *options)
+{
+	(void)pos;
+	(void)argc;
+	(void)argv;
+	options->use_pbkdf2 = TRUE;
+	return (1);
+}
+
+
 static t_option_handler	g_option_handlers[] = {
 	{ "-d", decode_option_handler	},
 	{ "-e", encode_option_handler	},
@@ -220,6 +230,7 @@ static t_option_handler	g_option_handlers[] = {
 	{ "-s", salt_option_handler		},
 	{ "-v", iv_option_handler		},
 	{ "-p", password_option_handler	},
+	{ "--pbkdf2", pbkdf2_option_handler	},
 	{ NULL, NULL}
 };
 
@@ -263,8 +274,25 @@ static void	set_default_options(t_des_options *options)
 	options->input_file = 0;
 	options->output_file = 1;
 	options->password = NULL;
+	options->use_pbkdf2 = FALSE;
 }
 
+static void	derive_from_password(t_des_options *options)
+{
+	t_pbkdf_params	params;
+
+	params.use_pbkdf2 = options->use_pbkdf2;
+	params.salt = options->salt;
+	params.key = options->key;
+	params.iv = options->initial_vector;
+	params.generate_salt = !options->salt_present;
+	params.password = options->password;
+	if (des_derive_key_from_password(&params))
+	{
+		ft_dprintf(2, "Error while generating salt, key and iv from password\n");
+		exit(-1);
+	}
+}
 
 void		des_ecb_handler(t_ssl *ssl)
 {
@@ -272,6 +300,8 @@ void		des_ecb_handler(t_ssl *ssl)
 
 	set_default_options(&options);
 	des_parse_options(&options, ssl->argc, ssl->argv);
+	if (options.key_present == FALSE)
+		derive_from_password(&options);
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;
 	if (options.encode)
