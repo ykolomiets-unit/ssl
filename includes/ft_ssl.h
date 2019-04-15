@@ -14,7 +14,6 @@
 # define FT_SSL_H
 
 # include "types.h"
-# include "des.h"
 
 typedef enum	e_source_type
 {

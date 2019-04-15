@@ -58,6 +58,10 @@ SRCS :=					md5_core.c						\
 						des_options2.c					\
 						des_options3.c					\
 						des_options4.c					\
+						des_base64_pipe.c				\
+						des_password.c					\
+						des_salt.c						\
+						des_print_ksi.c					\
 
 MAIN :=					main.c
 

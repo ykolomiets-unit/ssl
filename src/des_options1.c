@@ -14,6 +14,7 @@ static t_des_option_handler	g_option_handlers[] = {
 	{ "-p", password_option_handler },
 	{ "--pbkdf2", pbkdf2_option_handler },
 	{ "--help", help_option_handler },
+	{ "--print", print_ksi_option_handler },
 	{ NULL, NULL}
 };
 

@@ -3,16 +3,6 @@
 #include "utils.h"
 #include <unistd.h>
 
-typedef struct	s_des_ctx
-{
-	int			mode;
-	uint64_t	key;
-	uint64_t	subkeys[16];
-	t_byte		block[DES_BLOCK_SIZE];
-	uint32_t	last_block_size;
-	int			out;
-}				t_des_ctx;
-
 static void		des_ecb_init(t_des_ctx *ctx)
 {
 	des_key_schedule(ctx->key, ctx->subkeys, ctx->mode);
