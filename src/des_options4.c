@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-int	password_option_handler
+int	des_password_option_handler
 (
 	int pos,
 	int argc,
@@ -31,7 +31,7 @@ int	password_option_handler
 	return (2);
 }
 
-int	pbkdf2_option_handler
+int	des_pbkdf2_option_handler
 (
 	int pos,
 	int argc,
@@ -46,7 +46,7 @@ int	pbkdf2_option_handler
 	return (1);
 }
 
-int print_ksi_option_handler
+int des_print_ksi_option_handler
 (
 	int pos,
 	int argc,
@@ -61,7 +61,7 @@ int print_ksi_option_handler
 	return (1);
 }
 
-int	help_option_handler
+int	des_help_option_handler
 (
 	int pos,
 	int argc,

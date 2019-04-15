@@ -16,6 +16,8 @@
 # define DECODED_SIZE 300
 # define ENCODED_SIZE 400
 
+# include "types.h"
+
 typedef struct	s_base64_write
 {
 	int			write;
@@ -23,7 +25,16 @@ typedef struct	s_base64_write
 	int			bnum;
 }				t_base64_write;
 
-void	base64_encode_file_to_file(int input, int output, int bnum);
-int		base64_decode_file_to_file(int input, int output);
+typedef struct	s_base64_options
+{
+	t_bool		encode;
+	t_bool		decode;
+	int			input_file;
+	int			output_file;
+	int			break_num;
+}				t_base64_options;
+
+void			base64_encode_file_to_file(int input, int output, int bnum);
+int				base64_decode_file_to_file(int input, int output);
 
 #endif

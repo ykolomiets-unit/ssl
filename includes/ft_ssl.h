@@ -54,15 +54,6 @@ typedef struct	s_digest_help
 	t_bool		something_processed;
 }				t_digest_help;
 
-typedef struct	s_base64_options
-{
-	t_bool		encode;
-	t_bool		decode;
-	int			input_file;
-	int			output_file;
-	int			break_num;
-}				t_base64_options;
-
 int				error(char *err_msg);
 void			print_digest(unsigned char *digest, int size);
 void			md5_handler(t_ssl *ssl);

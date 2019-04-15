@@ -3,18 +3,18 @@
 #include <stdlib.h>
 
 static t_des_option_handler	g_option_handlers[] = {
-	{ "-d", decode_option_handler },
-	{ "-e", encode_option_handler },
-	{ "-a", base64_option_handler },
-	{ "-i", input_option_handler },
-	{ "-o", output_option_handler },
-	{ "-k", key_option_handler },
-	{ "-s", salt_option_handler },
-	{ "-v", iv_option_handler },
-	{ "-p", password_option_handler },
-	{ "--pbkdf2", pbkdf2_option_handler },
-	{ "--help", help_option_handler },
-	{ "--print", print_ksi_option_handler },
+	{ "-d", des_decode_option_handler },
+	{ "-e", des_encode_option_handler },
+	{ "-a", des_base64_option_handler },
+	{ "-i", des_input_option_handler },
+	{ "-o", des_output_option_handler },
+	{ "-k", des_key_option_handler },
+	{ "-s", des_salt_option_handler },
+	{ "-v", des_iv_option_handler },
+	{ "-p", des_password_option_handler },
+	{ "--pbkdf2", des_pbkdf2_option_handler },
+	{ "--help", des_help_option_handler },
+	{ "--print", des_print_ksi_option_handler },
 	{ NULL, NULL}
 };
 

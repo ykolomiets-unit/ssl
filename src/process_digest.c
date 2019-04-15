@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+#include "ssl_error.h"
 #include "libft.h"
 #include <stdio.h>
 #include <fcntl.h>
@@ -73,7 +74,7 @@ static int	process_options
 		if (ft_strcmp(ssl->argv[i], "-s") == 0)
 		{
 			if (++i >= ssl->argc)
-				error("No string after -s");
+				ssl_error("No string after -s");
 			help->digest_of_string(ssl->argv[i], help->digest);
 			output_result(flags, help, SOURCE_STRING, ssl->argv[i]);
 			help->something_processed = TRUE;

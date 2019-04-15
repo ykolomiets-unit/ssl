@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "libft.h"
 #include "ft_ssl.h"
+#include "ssl_error.h"
 #include "base64.h"
 #include <unistd.h>
 
@@ -134,14 +135,14 @@ int					base64_decode_file_to_file
 		if (in_buf != ENCODED_SIZE)
 			continue ;
 		if ((w = base64_decode(input_buffer, ENCODED_SIZE, output_buffer)) < 0)
-			return (error("Invalid character in input stream"));
+			ssl_error("Invalid character in input stream");
 		write(output, output_buffer, w);
 		in_buf = 0;
 	}
 	if (in_buf)
 	{
 		if ((w = base64_decode(input_buffer, in_buf, output_buffer)) < 0)
-			return (error("Invalid character in input stream"));
+			ssl_error("Invalid character in input stream");
 		write(output, output_buffer, w);
 	}
 	return (0);

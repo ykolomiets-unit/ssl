@@ -35,7 +35,7 @@ static int		parse_hex(char *str, t_byte res[8])
 	return (0);
 }
 
-int				key_option_handler
+int				des_key_option_handler
 (
 	int pos,
 	int argc,
@@ -68,7 +68,7 @@ int				key_option_handler
 	return (2);
 }
 
-int				salt_option_handler
+int				des_salt_option_handler
 (
 	int pos,
 	int argc,
@@ -96,7 +96,7 @@ int				salt_option_handler
 	return (2);
 }
 
-int				iv_option_handler
+int				des_iv_option_handler
 (
 	int pos,
 	int argc,

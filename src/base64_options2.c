@@ -1,14 +1,8 @@
-#include "des_options.h"
+#include "base64_options.h"
 #include "libft.h"
 #include <fcntl.h>
 
-int	des_decode_option_handler
-(
-	int pos,
-	int argc,
-	char **argv,
-	t_des_options *options
-)
+int	b64_decode_option_handler(int pos, int argc, char **argv, t_base64_options *options)
 {
 	(void)pos;
 	(void)argc;
@@ -22,13 +16,7 @@ int	des_decode_option_handler
 	return (1);
 }
 
-int	des_encode_option_handler
-(
-	int pos,
-	int argc,
-	char **argv,
-	t_des_options *options
-)
+int	b64_encode_option_handler(int pos, int argc, char **argv, t_base64_options *options)
 {
 	(void)pos;
 	(void)argc;
@@ -42,28 +30,7 @@ int	des_encode_option_handler
 	return (1);
 }
 
-int	des_base64_option_handler
-(
-	int pos,
-	int argc,
-	char **argv,
-	t_des_options *options
-)
-{
-	(void)pos;
-	(void)argc;
-	(void)argv;
-	options->base64 = TRUE;
-	return (1);
-}
-
-int	des_input_option_handler
-(
-	int pos,
-	int argc,
-	char **argv,
-	t_des_options *options
-)
+int	b64_input_option_handler(int pos, int argc, char **argv, t_base64_options *options)
 {
 	if (pos + 1 >= argc)
 	{
@@ -79,13 +46,7 @@ int	des_input_option_handler
 	return (2);
 }
 
-int	des_output_option_handler
-(
-	int pos,
-	int argc,
-	char **argv,
-	t_des_options *options
-)
+int	b64_output_option_handler(int pos, int argc, char **argv, t_base64_options *options)
 {
 	if (pos + 1 >= argc)
 	{
@@ -96,6 +57,22 @@ int	des_output_option_handler
 	if (options->output_file < 0)
 	{
 		ft_dprintf(2, "Unable to create '%s': ", argv[pos + 1]);
+		return (-1);
+	}
+	return (2);
+}
+
+int	b64_break_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+{
+	if (pos + 1 >= argc)
+	{
+		ft_dprintf(2, "No break num after -b\n");
+		return (-1);
+	}
+	options->break_num = ft_atoi(argv[pos + 1]);
+	if (options->break_num <= 0 || options->break_num > 1000)
+	{
+		ft_dprintf(2, "Break num must be in range [1, 1000]\n");
 		return (-1);
 	}
 	return (2);

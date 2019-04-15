@@ -10,11 +10,13 @@ LIBFT_LINK_FLAG :=		-lft -L$(LIBFT_DIR)
 LIBFT :=				$(LIBFT_DIR)/libft.a
 
 HEADERS :=				ft_ssl.h						\
+						ssl_error.h						\
 						md5.h							\
 						utils.h							\
 						sha224_256.h					\
 						sha384_512.h					\
 						base64.h						\
+						base64_options.h				\
 						hmac_sha256.h					\
 						pbkdf2.h						\
 						des.h							\
@@ -22,7 +24,8 @@ HEADERS :=				ft_ssl.h						\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
-SRCS :=					md5_core.c						\
+SRCS :=					ssl_error.c						\
+						md5_core.c						\
 						md5_transform.c					\
 						md5_driver.c					\
 						sha224_256_core.c				\
@@ -39,13 +42,14 @@ SRCS :=					md5_core.c						\
 						sha512_driver.c					\
 						utils1.c						\
 						utils2.c						\
-						error.c							\
 						process_digest.c				\
 						digest_handlers.c				\
 						base64_handler.c				\
 						print_digest.c					\
 						base64_decode.c					\
 						base64_encode.c					\
+						base64_options1.c				\
+						base64_options2.c				\
 						hmac_sha256.c					\
 						pbkdf2.c						\
 						des_get_key_and_iv.c			\
