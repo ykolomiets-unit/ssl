@@ -49,34 +49,66 @@ uint32_t	base64_encode
 	return (out_pos);
 }
 
+static void			base64_write(int fd, t_byte *buffer, t_base64_write *help)
+{
+	int			last_line_length;
+	int			pos;
+
+	if (help->bnum == 0)
+		write(fd, buffer, help->write);
+	else
+	{
+		last_line_length = help->total % help->bnum;
+		pos = help->bnum - last_line_length;
+		if (pos > help->write)
+			write(fd, buffer, help->write);
+		else
+			write(fd, buffer, pos);
+		write(fd, "\n", 1);
+		while (pos + help->bnum <= help->write)
+		{
+			write(fd, buffer + pos, help->bnum);
+			write(fd, "\n", 1);
+			pos += help->bnum;
+		}
+		if (pos < help->write)
+			write(fd, buffer + pos, help->write - pos);
+	}
+	help->total += help->write;
+}
+
+
 void		base64_encode_file_to_file
 (
 	int input,
-	int output
+	int output,
+	int	bnum
 )
 {
-	int			r;
-	uint32_t	in_buf;
-	t_byte		input_buffer[DECODED_SIZE];
-	uint32_t	w;
-	t_byte		output_buffer[ENCODED_SIZE];
+	int				r;
+	uint32_t		in_buf;
+	t_base64_write	help;
+	t_byte			input_buffer[DECODED_SIZE];
+	t_byte			output_buffer[ENCODED_SIZE];
 
 	r = 0;
 	in_buf = 0;
+	help.bnum = bnum;
+	help.total = 0;
 	while ((r = read(input, input_buffer + in_buf, DECODED_SIZE - in_buf)) > 0)
 	{
 		in_buf += r;
 		if (in_buf == DECODED_SIZE)
 		{
-			w = base64_encode(input_buffer, DECODED_SIZE, output_buffer);
-			write(output, output_buffer, w);
+			help.write = base64_encode(input_buffer, DECODED_SIZE, output_buffer);
+			base64_write(output, output_buffer, &help);
 			in_buf = 0;
 		}
 	}
 	if (in_buf)
 	{
-		w = base64_encode(input_buffer, in_buf, output_buffer);
-		write(output, output_buffer, w);
+		help.write = base64_encode(input_buffer, in_buf, output_buffer);
+		base64_write(output, output_buffer, &help);
 	}
-	ft_putchar_fd('\0', output);
+	write(output, "\x0a", 1);
 }

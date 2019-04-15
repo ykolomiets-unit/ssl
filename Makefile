@@ -18,6 +18,7 @@ HEADERS :=				ft_ssl.h						\
 						hmac_sha256.h					\
 						pbkdf2.h						\
 						des.h							\
+						des_options.h					\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
@@ -53,6 +54,10 @@ SRCS :=					md5_core.c						\
 						des_core.c						\
 						des_padding.c					\
 						des_ecb.c						\
+						des_options1.c					\
+						des_options2.c					\
+						des_options3.c					\
+						des_options4.c					\
 
 MAIN :=					main.c
 

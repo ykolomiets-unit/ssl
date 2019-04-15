@@ -59,26 +59,10 @@ typedef struct	s_base64_options
 {
 	t_bool		encode;
 	t_bool		decode;
-	char		*input_file;
-	char		*output_file;
-}				t_base64_options;
-
-typedef struct	s_des_options
-{
-	t_bool		encode;
-	t_bool		decode;
-	t_bool		base64;
 	int			input_file;
 	int			output_file;
-	t_byte		key[DES_KEY_LENGTH];
-	t_bool		key_present;
-	t_byte		salt[DES_SALT_LENGTH];
-	t_bool		salt_present;
-	t_byte		initial_vector[DES_IV_LENGTH];
-	t_bool		initial_vector_present;
-	t_bool		use_pbkdf2;
-	char		*password;
-}				t_des_options;
+	int			break_num;
+}				t_base64_options;
 
 int				error(char *err_msg);
 void			print_digest(unsigned char *digest, int size);

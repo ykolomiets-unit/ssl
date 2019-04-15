@@ -16,7 +16,14 @@
 # define DECODED_SIZE 300
 # define ENCODED_SIZE 400
 
-void	base64_encode_file_to_file(int input, int output);
+typedef struct	s_base64_write
+{
+	int			write;
+	int			total;
+	int			bnum;
+}				t_base64_write;
+
+void	base64_encode_file_to_file(int input, int output, int bnum);
 int		base64_decode_file_to_file(int input, int output);
 
 #endif
