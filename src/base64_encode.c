@@ -85,7 +85,7 @@ void		base64_encode_file_to_file
 	int	bnum
 )
 {
-	int				r;
+	int r;
 	uint32_t		in_buf;
 	t_base64_write	help;
 	t_byte			input_buffer[DECODED_SIZE];
@@ -110,5 +110,4 @@ void		base64_encode_file_to_file
 		help.write = base64_encode(input_buffer, in_buf, output_buffer);
 		base64_write(output, output_buffer, &help);
 	}
-	write(output, "\x0a", 1);
 }

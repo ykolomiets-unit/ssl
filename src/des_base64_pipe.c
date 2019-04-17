@@ -1,6 +1,7 @@
 #include "des.h"
 #include "libft.h"
 #include "base64.h"
+#include "ssl_error.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -10,16 +11,10 @@ void		initialize_base64_write_pipe(t_des_options *options)
 	pid_t	p;
 
 	if(pipe(fd) == -1)
-	{
-		ft_dprintf(2, "Pipe failed\n");
-		exit(-1);
-	}
+		ssl_error("Pipe failed\n");
 	p = fork();
 	if (p < 0)
-	{
-		ft_dprintf(2, "Fork failed\n");
-		exit(-1);
-	}
+		ssl_error("Fork failed\n");
 	if (p > 0)
 	{
 		close(fd[0]);
@@ -39,16 +34,10 @@ void		initialize_base64_read_pipe(t_des_options *options)
 	pid_t	p;
 
 	if (pipe(fd) == -1)
-	{
-		ft_dprintf(2, "Pipe failed\n");
-		exit(-1);
-	}
+		ssl_error("Pipe failed\n");
 	p = fork();
 	if (p < 0)
-	{
-		ft_dprintf(2, "Fork failed\n");
-		exit(-1);
-	}
+		ssl_error("Fork failed\n");
 	if (p > 0)
 	{
 		close(fd[1]);
@@ -58,6 +47,6 @@ void		initialize_base64_read_pipe(t_des_options *options)
 	{
 		close(fd[0]);
 		base64_decode_file_to_file(options->input_file, fd[1]);
-		return;
+		exit(0);
 	}
 }

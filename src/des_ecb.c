@@ -1,6 +1,7 @@
 #include "des.h"
 #include "libft.h"
 #include "utils.h"
+#include "ssl_error.h"
 #include <unistd.h>
 
 static void		des_ecb_init(t_des_ctx *ctx)
@@ -50,7 +51,7 @@ static void		des_ecb_final(t_des_ctx *ctx)
 	{
 		des_core(ctx->subkeys, ctx->block, ctx->block);
 		if (ctx->block[DES_BLOCK_SIZE - 1] < 1 || ctx->block[DES_BLOCK_SIZE - 1] > 8)
-			ft_printf("Wrong padding\n");
+			ssl_error("Wrong padding\n");
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[DES_BLOCK_SIZE - 1]);
 	}
 }
@@ -61,6 +62,7 @@ void		des_ecb_encode(t_byte key[DES_KEY_LENGTH], int in, int out)
 	t_byte		buffer[4096];
 	int			r;
 
+	ft_bzero(&ctx, sizeof(ctx));
 	ctx.mode = ENCODE;
 	bytes_to_big_endian_dwords(&ctx.key, key, DES_KEY_LENGTH);
 	ctx.out = out;
@@ -77,6 +79,7 @@ void		des_ecb_decode(t_byte key[DES_KEY_LENGTH], int in, int out)
 	t_byte		buffer[4096];
 	int			r;
 
+	ft_bzero(&ctx, sizeof(ctx));
 	ctx.mode = DECODE;
 	bytes_to_big_endian_dwords(&ctx.key, key, DES_KEY_LENGTH);
 	ctx.out = out;

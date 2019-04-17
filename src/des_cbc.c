@@ -12,6 +12,7 @@ static void	des_cbc_init
 	int	out_fd
 )
 {
+	ctx->last_block_size = 0;
 	ctx->out = out_fd;
 	bytes_to_big_endian_dwords(&ctx->key, key, DES_KEY_LENGTH);
 	des_key_schedule(ctx->key, ctx->subkeys, ctx->mode);
