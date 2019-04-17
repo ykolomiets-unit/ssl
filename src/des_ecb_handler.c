@@ -5,20 +5,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void	set_default_options(t_des_options *options)
-{
-	options->base64 = FALSE;
-	options->decode = FALSE;
-	options->encode = FALSE;
-	options->initial_vector_present = FALSE;
-	options->key_present = FALSE;
-	options->salt_present = FALSE;
-	options->input_file = 0;
-	options->output_file = 1;
-	options->password_present = FALSE;
-	options->use_pbkdf2 = FALSE;
-}
-
 static void	derive_from_password(t_des_options *options)
 {
 	t_pbkdf_params	params;
@@ -72,7 +58,7 @@ void		des_ecb_handler(t_ssl *ssl)
 {
 	t_des_options		options;
 
-	set_default_options(&options);
+	des_set_default_options(&options);
 	des_parse_options(&options, ssl->argc, ssl->argv);
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;

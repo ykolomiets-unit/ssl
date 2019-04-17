@@ -42,6 +42,7 @@ typedef struct	s_des_ctx
 	uint64_t	key;
 	uint64_t	subkeys[16];
 	t_byte		block[DES_BLOCK_SIZE];
+	t_byte		vector[DES_BLOCK_SIZE];
 	uint32_t	last_block_size;
 	int			out;
 }				t_des_ctx;
@@ -73,6 +74,9 @@ void			des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[D
 
 void			des_ecb_encode(t_byte key[DES_KEY_LENGTH], int in, int out);
 void			des_ecb_decode(t_byte key[DES_KEY_LENGTH], int in, int out);
+
+void			des_cbc_encode(t_byte key[DES_KEY_LENGTH], t_byte iv[DES_IV_LENGTH], int in, int out);
+void			des_cbc_decode(t_byte key[DES_KEY_LENGTH], t_byte iv[DES_IV_LENGTH], int in, int out);
 
 void			initialize_base64_write_pipe(t_des_options *options);
 void			initialize_base64_read_pipe(t_des_options *options);

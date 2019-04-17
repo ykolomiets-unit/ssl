@@ -61,8 +61,10 @@ void			sha224_handler(t_ssl *ssl);
 void			sha256_handler(t_ssl *ssl);
 void			sha384_handler(t_ssl *ssl);
 void			sha512_handler(t_ssl *ssl);
-void			base64_handler(t_ssl *ssl);
-void			des_ecb_handler(t_ssl *ssl);
 void			process_digest(t_ssl *ssl, t_digest_help help);
+void			base64_handler(t_ssl *ssl);
+
+void			des_ecb_handler(t_ssl *ssl);
+void			des_cbc_handler(t_ssl *ssl);
 
 #endif

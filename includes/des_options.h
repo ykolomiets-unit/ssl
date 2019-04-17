@@ -24,6 +24,7 @@ int					des_pbkdf2_option_handler(int pos, int argc, char **argv, t_des_options 
 int					des_print_ksi_option_handler(int pos, int argc, char **argv, t_des_options *options);
 int					des_help_option_handler(int pos, int argc, char **argv, t_des_options *options);
 
+void				des_set_default_options(t_des_options *options);
 void				des_parse_options(t_des_options *options, int argc, char **argv);
 
 #endif
