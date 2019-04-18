@@ -26,7 +26,7 @@
 # define ENCODE 0
 # define DECODE 1
 
-# define DES_MODES_COUNT 3
+# define DES_MODES_COUNT 4
 
 # define DES_MODE_ECB 0
 # define DES_MODE_CBC 1
@@ -126,6 +126,11 @@ void				des_cbc_decryption_iteration(uint64_t keys[16],
 void				des_pcbc_encryption_iteration(uint64_t keys[16],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 void				des_pcbc_decryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+
+void				des_cfb_encryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_cfb_decryption_iteration(uint64_t keys[16],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
 void				des_chain(t_des_chain_params *params);

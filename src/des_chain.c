@@ -15,6 +15,10 @@ static t_des_iter	g_modes_iter[DES_MODES_COUNT][2] = {
 	{
 		des_pcbc_encryption_iteration,
 		des_pcbc_decryption_iteration
+	},
+	{
+		des_cfb_encryption_iteration,
+		des_cfb_decryption_iteration
 	}
 };
 
@@ -28,7 +32,10 @@ static void	des_init
 	ctx->out = params->out;
 	ctx->encode = params->encode;
 	bytes_to_big_endian_dwords(&ctx->key, params->key, DES_KEY_LENGTH);
-	des_key_schedule(ctx->key, ctx->subkeys, ctx->encode);
+	if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+		des_key_schedule(ctx->key, ctx->subkeys, TRUE);
+	else
+		des_key_schedule(ctx->key, ctx->subkeys, ctx->encode);
 	ft_memcpy(ctx->vector, params->iv, DES_IV_LENGTH);
 	ctx->iter = g_modes_iter[params->mode][ctx->encode ? 0 : 1];
 }
