@@ -3,7 +3,7 @@
 #include "utils.h"
 #include <unistd.h>
 
-static t_des_iter	g_modes_iter[2][2] = {
+static t_des_iter	g_modes_iter[DES_MODES_COUNT][2] = {
 	{
 		des_ecb_iteration,
 		des_ecb_iteration,
@@ -11,6 +11,10 @@ static t_des_iter	g_modes_iter[2][2] = {
 	{
 		des_cbc_encryption_iteration,
 		des_cbc_decryption_iteration
+	},
+	{
+		des_pcbc_encryption_iteration,
+		des_pcbc_decryption_iteration
 	}
 };
 

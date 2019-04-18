@@ -11,3 +11,8 @@ void	des_cbc_handler(t_ssl *ssl)
 	des_handler(ssl->argc, ssl->argv, DES_MODE_CBC);
 }
 
+void	des_pcbc_handler(t_ssl *ssl)
+{
+	des_handler(ssl->argc, ssl->argv, DES_MODE_PCBC);
+}
+

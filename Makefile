@@ -67,8 +67,9 @@ SRCS :=					ssl_error.c						\
 						des_handlers.c					\
 						des_common_handler.c			\
 						des_chain.c						\
-						des_cbc_iteration.c				\
 						des_ecb_iteration.c				\
+						des_cbc_iteration.c				\
+						des_pcbc_iteration.c			\
 
 MAIN :=					main.c
 

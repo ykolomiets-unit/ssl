@@ -26,6 +26,8 @@
 # define ENCODE 0
 # define DECODE 1
 
+# define DES_MODES_COUNT 3
+
 # define DES_MODE_ECB 0
 # define DES_MODE_CBC 1
 # define DES_MODE_PCBC 2
@@ -113,26 +115,18 @@ void				des_read_salt(t_byte salt[DES_SALT_LENGTH], int fd);
 void				des_write_salt(t_byte *salt, uint32_t len, int fd);
 void				des_print_ksi(t_des_options *options);
 
-void				des_cbc_encryption_iteration
-(
-	uint64_t keys[16],
-	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
-);
+void				des_ecb_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
-void				des_cbc_decryption_iteration
-(
-	uint64_t keys[16],
-	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
-);
+void				des_cbc_encryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_cbc_decryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
-void				des_ecb_iteration
-(
-	uint64_t keys[16],
-	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
-);
+void				des_pcbc_encryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_pcbc_decryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
 void				des_chain(t_des_chain_params *params);
 void				des_handler(int argc, char **argv, t_des_chainmode mode);

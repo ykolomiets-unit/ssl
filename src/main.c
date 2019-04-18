@@ -20,37 +20,43 @@
 #define DIGEST_COMMANDS "Message Digest commands: "
 #define CIPHER_COMMANDS "Cipher commands: "
 
-#define DIGEST_COMMANDS_AMOUNT 5
-#define CIPHER_COMMANDS_AMOUNT 4
-
 static const t_command_handler	g_digest_commands[] = {
 	{"md5", md5_handler},
 	{"sha224", sha224_handler},
 	{"sha256", sha256_handler},
 	{"sha384", sha384_handler},
-	{"sha512", sha512_handler}
+	{"sha512", sha512_handler},
+	{NULL, NULL}
 };
 
 static const t_command_handler	g_cipher_commands[] = {
 	{"base64", base64_handler},
 	{"des", des_ecb_handler},
 	{"des-ecb", des_ecb_handler},
-	{"des-cbc", des_cbc_handler}
+	{"des-cbc", des_cbc_handler},
+	{"des-pcbc", des_pcbc_handler},
+	{NULL, NULL}
 };
 
 static void						print_commands(void)
 {
-	int	i;
+	const t_command_handler	*c;
 
 	ft_printf("\n%s\n", STANDARD_COMMANDS);
 	ft_printf("\n%s\n", DIGEST_COMMANDS);
-	i = -1;
-	while (++i < DIGEST_COMMANDS_AMOUNT)
-		ft_printf("%s\n", g_digest_commands[i].command);
+	c = g_digest_commands;
+	while (c->command != NULL)
+	{
+		ft_printf("%s\n", c->command);
+		c++;
+	}
 	ft_printf("\n%s\n", CIPHER_COMMANDS);
-	i = -1;
-	while (++i < CIPHER_COMMANDS_AMOUNT)
-		ft_printf("%s\n", g_cipher_commands[i].command);
+	c = g_cipher_commands;
+	while (c->command != NULL)
+	{
+		ft_printf("%s\n", c->command);
+		c++;
+	}
 }
 
 static t_handler				get_command_handler
@@ -58,16 +64,22 @@ static t_handler				get_command_handler
 	char *command_name
 )
 {
-	int	i;
+	const t_command_handler	*c;
 
-	i = -1;
-	while (++i < DIGEST_COMMANDS_AMOUNT)
-		if (ft_strcmp(command_name, g_digest_commands[i].command) == 0)
-			return (g_digest_commands[i].handler);
-	i = -1;
-	while (++i < CIPHER_COMMANDS_AMOUNT)
-		if (ft_strcmp(command_name, g_cipher_commands[i].command) == 0)
-			return (g_cipher_commands[i].handler);
+	c = g_digest_commands;
+	while (c->command != NULL)
+	{
+		if (ft_strcmp(command_name, c->command) == 0)
+			return (c->handler);
+		c++;
+	}
+	c = g_cipher_commands;
+	while (c->command != NULL)
+	{
+		if (ft_strcmp(command_name, c->command) == 0)
+			return (c->handler);
+		c++;
+	}
 	return (NULL);
 }
 
