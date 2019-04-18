@@ -31,12 +31,13 @@ static const t_command_handler	g_digest_commands[] = {
 
 static const t_command_handler	g_cipher_commands[] = {
 	{"base64", base64_handler},
-	{"des", des_ecb_handler},
+	{"des",	des_cbc_handler},
 	{"des-ecb", des_ecb_handler},
 	{"des-cbc", des_cbc_handler},
 	{"des-pcbc", des_pcbc_handler},
 	{"des-cfb", des_cfb_handler},
 	{"des-ofb", des_ofb_handler},
+	{"des-ede3", des_ede3_handler},
 	{NULL, NULL}
 };
 

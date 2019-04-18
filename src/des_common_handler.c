@@ -76,6 +76,7 @@ void		des_handler(int argc, char **argv, t_des_chainmode mode)
 	t_des_options	options;
 
 	des_set_default_options(&options);
+	options.mode = mode;
 	des_parse_options(&options, argc, argv);
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;

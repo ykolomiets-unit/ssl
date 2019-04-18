@@ -12,14 +12,14 @@ static t_byte	get_4bits_value(char c)
 	return (0xff);
 }
 
-static int		parse_hex(char *str, t_byte res[8])
+static int		parse_hex(char *str, t_byte *res, uint32_t res_size)
 {
 	uint32_t	i;
 	t_byte		temp;
 
 	i = 0;
-	ft_bzero(res, 8);
-	while (*str && i < 16)
+	ft_bzero(res, res_size);
+	while (*str && i < res_size * 2)
 	{
 		temp = get_4bits_value(*str);
 		if (temp == 0xff)
@@ -30,7 +30,7 @@ static int		parse_hex(char *str, t_byte res[8])
 	}
 	if (*str)
 		return (-2);
-	if (i < 16)
+	if (i < res_size * 2)
 		return (1);
 	return (0);
 }
@@ -56,7 +56,7 @@ int				des_key_option_handler
 		return (-1);
 	}
 	options->key_present = TRUE;
-	parse_res = parse_hex(argv[pos + 1], options->key);
+	parse_res = parse_hex(argv[pos + 1], options->key, 3 * DES_KEY_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse key\n");
 	else if (parse_res == -2)
@@ -84,7 +84,7 @@ int				des_salt_option_handler
 		return (-1);
 	}
 	options->salt_present = TRUE;
-	parse_res = parse_hex(argv[pos + 1], options->salt);
+	parse_res = parse_hex(argv[pos + 1], options->salt, DES_SALT_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse salt\n");
 	else if (parse_res == -2)
@@ -117,7 +117,7 @@ int				des_iv_option_handler
 		return (-1);
 	}
 	options->initial_vector_present = TRUE;
-	parse_res = parse_hex(argv[pos + 1], options->initial_vector);
+	parse_res = parse_hex(argv[pos + 1], options->initial_vector, DES_IV_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse initial vector\n");
 	else if (parse_res == -2)

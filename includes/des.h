@@ -26,13 +26,14 @@
 # define ENCODE 0
 # define DECODE 1
 
-# define DES_MODES_COUNT 5
+# define DES_MODES_COUNT 6
 
 # define DES_MODE_ECB 0
 # define DES_MODE_CBC 1
 # define DES_MODE_PCBC 2
 # define DES_MODE_CFB 3
 # define DES_MODE_OFB 4
+# define DES_MODE_EDE3 5
 
 typedef int			t_des_chainmode;
 
@@ -52,12 +53,13 @@ typedef struct		s_pbkdf_params
 
 typedef struct		s_des_options
 {
+	t_des_chainmode	mode;
 	t_bool			encode;
 	t_bool			decode;
 	t_bool			base64;
 	int				input_file;
 	int				output_file;
-	t_byte			key[DES_KEY_LENGTH];
+	t_byte			key[3 * DES_KEY_LENGTH];
 	t_bool			key_present;
 	t_byte			salt[DES_SALT_LENGTH];
 	t_bool			salt_present;
@@ -79,18 +81,14 @@ typedef struct		s_des_chain_params
 	t_des_chainmode	mode;
 }					t_des_chain_params;
 
-typedef void		(*t_des_iter)
-(
-	uint64_t keys[16],
-	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
-);
+typedef void		(*t_des_iter)(uint64_t *keys, t_byte block[DES_BLOCK_SIZE],
+						t_byte vector[DES_BLOCK_SIZE]);
 
 typedef struct		s_des_ctx
 {
 	t_bool			encode;
 	uint64_t		key;
-	uint64_t		subkeys[16];
+	uint64_t		subkeys[48];
 	t_byte			block[DES_BLOCK_SIZE];
 	t_byte			vector[DES_BLOCK_SIZE];
 	uint32_t		last_block_size;
@@ -135,6 +133,9 @@ void				des_cfb_decryption_iteration(uint64_t keys[16],
 void				des_ofb_encryption_iteration(uint64_t keys[16],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 void				des_ofb_decryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+
+void				des_ede3_iteration(uint64_t keys[48],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
 void				des_chain(t_des_chain_params *params);
