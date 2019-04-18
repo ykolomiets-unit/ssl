@@ -3,5 +3,5 @@
 
 void	des_ede3_handler(t_ssl *ssl)
 {
-	des_handler(ssl->argc, ssl->argv, DES_MODE_EDE3);
+	des_handler(ssl->argc, ssl->argv, DES_MODE_ECB, TRUE);
 }

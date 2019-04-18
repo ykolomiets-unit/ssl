@@ -17,10 +17,11 @@ void				des_ofb_encryption_iteration
 (
 	uint64_t keys[16],
 	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
+	t_byte vector[DES_BLOCK_SIZE],
+	t_des_core core
 )
 {
-	des_core(keys, vector, vector);
+	core(keys, vector, vector);
 	xor_blocks(vector, block, block);
 }
 
@@ -28,10 +29,11 @@ void				des_ofb_decryption_iteration
 (
 	uint64_t keys[16],
 	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
+	t_byte vector[DES_BLOCK_SIZE],
+	t_des_core core
 )
 {
-	des_core(keys, vector, vector);
+	core(keys, vector, vector);
 	xor_blocks(block, vector, block);
 }
 

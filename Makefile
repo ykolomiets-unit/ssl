@@ -55,6 +55,7 @@ SRCS :=					ssl_error.c						\
 						des_get_key_and_iv.c			\
 						des_keys.c						\
 						des_core.c						\
+						des3_core.c						\
 						des_padding.c					\
 						des_options1.c					\
 						des_options2.c					\
@@ -73,7 +74,6 @@ SRCS :=					ssl_error.c						\
 						des_pcbc_iteration.c			\
 						des_cfb_iteration.c				\
 						des_ofb_iteration.c				\
-						des_ede3_iteration.c			\
 
 MAIN :=					main.c
 

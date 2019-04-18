@@ -33,7 +33,6 @@
 # define DES_MODE_PCBC 2
 # define DES_MODE_CFB 3
 # define DES_MODE_OFB 4
-# define DES_MODE_EDE3 5
 
 typedef int			t_des_chainmode;
 
@@ -47,12 +46,14 @@ typedef struct		s_pbkdf_params
 	t_bool			generate_salt;
 	t_byte			*salt;
 	t_byte			*key;
+	uint32_t		key_length;
 	t_byte			*iv;
 	char			*password;
 }					t_pbkdf_params;
 
 typedef struct		s_des_options
 {
+	t_bool			des3;
 	t_des_chainmode	mode;
 	t_bool			encode;
 	t_bool			decode;
@@ -78,21 +79,25 @@ typedef struct		s_des_chain_params
 	int				in;
 	int				out;
 	t_bool			encode;
+	t_bool			des3;
 	t_des_chainmode	mode;
 }					t_des_chain_params;
 
+typedef void		(*t_des_core)(uint64_t *keys, t_byte input[DES_BLOCK_SIZE],
+						t_byte output[DES_BLOCK_SIZE]);
+
 typedef void		(*t_des_iter)(uint64_t *keys, t_byte block[DES_BLOCK_SIZE],
-						t_byte vector[DES_BLOCK_SIZE]);
+						t_byte vector[DES_BLOCK_SIZE], t_des_core core);
 
 typedef struct		s_des_ctx
 {
 	t_bool			encode;
-	uint64_t		key;
 	uint64_t		subkeys[48];
 	t_byte			block[DES_BLOCK_SIZE];
 	t_byte			vector[DES_BLOCK_SIZE];
 	uint32_t		last_block_size;
 	int				out;
+	t_des_core		core;
 	t_des_iter		iter;
 }					t_des_ctx;
 
@@ -103,6 +108,8 @@ void				des_key_schedule(uint64_t key, uint64_t subkeys[16],
 						int mode);
 void				des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE],
 						t_byte output[DES_BLOCK_SIZE]);
+void				des3_core(uint64_t keys[48], t_byte input[DES_BLOCK_SIZE],
+						t_byte output[DES_BLOCK_SIZE]);
 
 void				initialize_base64_write_pipe(t_des_options *options);
 void				initialize_base64_read_pipe(t_des_options *options);
@@ -112,33 +119,30 @@ void				des_read_salt(t_byte salt[DES_SALT_LENGTH], int fd);
 void				des_write_salt(t_byte *salt, uint32_t len, int fd);
 void				des_print_ksi(t_des_options *options);
 
-void				des_ecb_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_ecb_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
-void				des_cbc_encryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
-void				des_cbc_decryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_cbc_encryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
+void				des_cbc_decryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
-void				des_pcbc_encryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
-void				des_pcbc_decryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_pcbc_encryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
+void				des_pcbc_decryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
-void				des_cfb_encryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
-void				des_cfb_decryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_cfb_encryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
+void				des_cfb_decryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
-void				des_ofb_encryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
-void				des_ofb_decryption_iteration(uint64_t keys[16],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
-
-void				des_ede3_iteration(uint64_t keys[48],
-						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_ofb_encryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
+void				des_ofb_decryption_iteration(uint64_t *keys, t_byte *b,
+						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
 void				des_chain(t_des_chain_params *params);
-void				des_handler(int argc, char **argv, t_des_chainmode mode);
+void				des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3);
 
 #endif

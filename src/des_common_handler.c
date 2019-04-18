@@ -13,6 +13,7 @@ static void	derive_from_password(t_des_options *options)
 	params.use_pbkdf2 = options->use_pbkdf2;
 	params.salt = options->salt;
 	params.key = options->key;
+	params.key_length = options->des3 ? DES_KEY_LENGTH * 3 : DES_KEY_LENGTH;
 	params.iv = options->initial_vector;
 	params.generate_salt = !options->salt_present;
 	params.password = options->password;
@@ -24,7 +25,7 @@ static void	derive_from_password(t_des_options *options)
 	options->salt_present = TRUE;
 }
 
-static void	encode(t_des_options *options, t_des_chainmode mode)
+static void	encode(t_des_options *options, t_des_chainmode mode, t_bool des3)
 {
 	t_des_chain_params	params;
 
@@ -44,11 +45,12 @@ static void	encode(t_des_options *options, t_des_chainmode mode)
 	params.in = options->input_file;
 	params.out = options->output_file;
 	params.encode = TRUE;
+	params.des3 = des3;
 	params.mode = mode;
 	des_chain(&params);
 }
 
-static void	decode(t_des_options *options, t_des_chainmode mode)
+static void	decode(t_des_options *options, t_des_chainmode mode, t_bool des3)
 {
 	t_des_chain_params	params;
 
@@ -67,15 +69,17 @@ static void	decode(t_des_options *options, t_des_chainmode mode)
 	params.in = options->input_file;
 	params.out = options->output_file;
 	params.encode = FALSE;
+	params.des3 = des3;
 	params.mode = mode;
 	des_chain(&params);
 }
 
-void		des_handler(int argc, char **argv, t_des_chainmode mode)
+void		des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3)
 {
 	t_des_options	options;
 
 	des_set_default_options(&options);
+	options.des3 = des3;
 	options.mode = mode;
 	des_parse_options(&options, argc, argv);
 	if (options.encode == FALSE && options.decode == FALSE)
@@ -92,7 +96,7 @@ void		des_handler(int argc, char **argv, t_des_chainmode mode)
 	if (options.password_present == FALSE && options.key_present == FALSE)
 		des_get_password_from_stdin(&options);
 	if (options.encode)
-		encode(&options, mode);
+		encode(&options, mode, des3);
 	else
-		decode(&options, mode);
+		decode(&options, mode, des3);
 }

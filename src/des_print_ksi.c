@@ -18,7 +18,7 @@ void	des_print_ksi(t_des_options *options)
 	ft_printf("salt = ");
 	print_hex(options->salt, DES_SALT_LENGTH);
 	ft_printf("\nkey = ");
-	if (options->mode == DES_MODE_EDE3)
+	if (options->des3)
 		print_hex(options->key, 3 * DES_KEY_LENGTH);
 	else
 		print_hex(options->key, DES_KEY_LENGTH);

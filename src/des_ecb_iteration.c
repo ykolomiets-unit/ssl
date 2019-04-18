@@ -5,9 +5,10 @@ void				des_ecb_iteration
 (
 	uint64_t keys[16],
 	t_byte block[DES_BLOCK_SIZE],
-	t_byte vector[DES_BLOCK_SIZE]
+	t_byte vector[DES_BLOCK_SIZE],
+	t_des_core core
 )
 {
 	(void)vector;
-	des_core(keys, block, block);
+	core(keys, block, block);
 }

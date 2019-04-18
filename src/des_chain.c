@@ -23,12 +23,37 @@ static t_des_iter	g_modes_iter[DES_MODES_COUNT][2] = {
 	{
 		des_ofb_encryption_iteration,
 		des_ofb_decryption_iteration
-	},
-	{
-		des_ede3_iteration,
-		des_ede3_iteration
 	}
 };
+
+static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *params)
+{
+	uint64_t	key1;
+	uint64_t	key2;
+	uint64_t	key3;
+
+	bytes_to_big_endian_dwords(&key1, params->key, DES_KEY_LENGTH);
+	if (params->des3 == FALSE)
+	{
+		if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+			des_key_schedule(key1, ctx->subkeys, TRUE);
+		else
+			des_key_schedule(key1, ctx->subkeys, ctx->encode);
+		return;
+	}
+	bytes_to_big_endian_dwords(&key2, params->key + 8, DES_KEY_LENGTH);
+	bytes_to_big_endian_dwords(&key3, params->key + 16, DES_KEY_LENGTH);
+	if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+	{
+		des_key_schedule(key1, ctx->subkeys, TRUE);
+		des_key_schedule(key2, ctx->subkeys + 16, TRUE);
+		des_key_schedule(key3, ctx->subkeys + 32, TRUE);
+		return;
+	}
+	des_key_schedule(key1, ctx->subkeys, ctx->encode ? 1 : 0);
+	des_key_schedule(key2, ctx->subkeys + 16, ctx->encode ? 0 : 1);
+	des_key_schedule(key3, ctx->subkeys + 32, ctx->encode ? 1 : 0);
+}
 
 static void	des_init
 (
@@ -36,27 +61,14 @@ static void	des_init
 	t_des_chain_params *params
 )
 {
-	uint64_t	key;
 
 	ft_bzero(ctx, sizeof(t_des_ctx));
 	ctx->out = params->out;
 	ctx->encode = params->encode;
-	bytes_to_big_endian_dwords(&ctx->key, params->key, DES_KEY_LENGTH);
-	if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
-		des_key_schedule(ctx->key, ctx->subkeys, TRUE);
-	else if (params->mode == DES_MODE_EDE3)
-	{
-		bytes_to_big_endian_dwords(&key, params->key, DES_KEY_LENGTH);
-		des_key_schedule(key, ctx->subkeys, ctx->encode ? 1 : 0);
-		bytes_to_big_endian_dwords(&key, params->key + 8, DES_KEY_LENGTH);
-		des_key_schedule(key, ctx->subkeys + 16, ctx->encode ? 0 : 1);
-		bytes_to_big_endian_dwords(&key, params->key + 16, DES_KEY_LENGTH);
-		des_key_schedule(key, ctx->subkeys + 32, ctx->encode ? 1 : 0);
-	}
-	else
-		des_key_schedule(ctx->key, ctx->subkeys, ctx->encode);
+	set_subkeys(ctx, params);
 	ft_memcpy(ctx->vector, params->iv, DES_IV_LENGTH);
 	ctx->iter = g_modes_iter[params->mode][ctx->encode ? 0 : 1];
+	ctx->core = params->des3 ? des3_core : des_core;
 }
 
 static void	des_update(t_des_ctx *ctx, t_byte *input, uint32_t input_len)
@@ -69,13 +81,13 @@ static void	des_update(t_des_ctx *ctx, t_byte *input, uint32_t input_len)
 	{
 		ft_memcpy(ctx->block, input, DES_BLOCK_SIZE - ctx->last_block_size);
 		current_pos = DES_BLOCK_SIZE - ctx->last_block_size;
-		ctx->iter(ctx->subkeys, ctx->block, ctx->vector);
+		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE);
 	}
 	start_pos = current_pos;
 	while (current_pos + DES_BLOCK_SIZE < input_len)
 	{
-		ctx->iter(ctx->subkeys, input + current_pos, ctx->vector);
+		ctx->iter(ctx->subkeys, input + current_pos, ctx->vector, ctx->core);
 		current_pos += DES_BLOCK_SIZE;
 	}
 	write(ctx->out, input + start_pos, current_pos - start_pos);
@@ -89,17 +101,17 @@ static void	des_final(t_des_ctx *ctx)
 	{
 		if (ctx->last_block_size == 8)
 		{
-			ctx->iter(ctx->subkeys, ctx->block, ctx->vector);
+			ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 			write(ctx->out, ctx->block, DES_BLOCK_SIZE);
 			ctx->last_block_size = 0;
 		}
 		des_add_padding(ctx->last_block_size, ctx->block);
-		ctx->iter(ctx->subkeys, ctx->block, ctx->vector);
+		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE);
 	}
 	else
 	{
-		ctx->iter(ctx->subkeys, ctx->block, ctx->vector);
+		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		if (ctx->block[DES_BLOCK_SIZE - 1] < 1 || ctx->block[DES_BLOCK_SIZE - 1] > 8)
 			ft_printf("Wrong padding\n");
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[DES_BLOCK_SIZE - 1]);
