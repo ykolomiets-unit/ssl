@@ -19,6 +19,10 @@ static t_des_iter	g_modes_iter[DES_MODES_COUNT][2] = {
 	{
 		des_cfb_encryption_iteration,
 		des_cfb_decryption_iteration
+	},
+	{
+		des_ofb_encryption_iteration,
+		des_ofb_decryption_iteration
 	}
 };
 

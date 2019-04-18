@@ -26,19 +26,18 @@
 # define ENCODE 0
 # define DECODE 1
 
-# define DES_MODES_COUNT 4
+# define DES_MODES_COUNT 5
 
 # define DES_MODE_ECB 0
 # define DES_MODE_CBC 1
 # define DES_MODE_PCBC 2
 # define DES_MODE_CFB 3
 # define DES_MODE_OFB 4
-# define DES_MODE_CTR 5
 
 typedef int			t_des_chainmode;
 
 static const char	*g_mode_name[] = {
-	"EBC", "CBC", "PCBC", "CFB", "OFB", "CTR"
+	"EBC", "CBC", "PCBC", "CFB", "OFB"
 };
 
 typedef struct		s_pbkdf_params
@@ -131,6 +130,11 @@ void				des_pcbc_decryption_iteration(uint64_t keys[16],
 void				des_cfb_encryption_iteration(uint64_t keys[16],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 void				des_cfb_decryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+
+void				des_ofb_encryption_iteration(uint64_t keys[16],
+						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
+void				des_ofb_decryption_iteration(uint64_t keys[16],
 						t_byte b[DES_BLOCK_SIZE],  t_byte vec[DES_BLOCK_SIZE]);
 
 void				des_chain(t_des_chain_params *params);

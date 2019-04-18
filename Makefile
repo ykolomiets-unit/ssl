@@ -71,6 +71,7 @@ SRCS :=					ssl_error.c						\
 						des_cbc_iteration.c				\
 						des_pcbc_iteration.c			\
 						des_cfb_iteration.c				\
+						des_ofb_iteration.c				\
 
 MAIN :=					main.c
 
