@@ -37,7 +37,9 @@ static const t_command_handler	g_cipher_commands[] = {
 	{"des-pcbc", des_pcbc_handler},
 	{"des-cfb", des_cfb_handler},
 	{"des-ofb", des_ofb_handler},
+	{"des3", des_ede3_cbc_handler},
 	{"des-ede3", des_ede3_handler},
+	{"des-ede3-cbc", des_ede3_cbc_handler},
 	{NULL, NULL}
 };
 
