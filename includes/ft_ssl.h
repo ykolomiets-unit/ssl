@@ -71,5 +71,7 @@ void			des_cfb_handler(t_ssl *ssl);
 void			des_ofb_handler(t_ssl *ssl);
 void			des_ede3_handler(t_ssl *ssl);
 void			des_ede3_cbc_handler(t_ssl *ssl);
+void			des_ede3_cfb_handler(t_ssl *ssl);
+void			des_ede3_ofb_handler(t_ssl *ssl);
 
 #endif

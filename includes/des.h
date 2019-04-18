@@ -92,6 +92,7 @@ typedef void		(*t_des_iter)(uint64_t *keys, t_byte block[DES_BLOCK_SIZE],
 typedef struct		s_des_ctx
 {
 	t_bool			encode;
+	t_bool			require_padding;
 	uint64_t		subkeys[48];
 	t_byte			block[DES_BLOCK_SIZE];
 	t_byte			vector[DES_BLOCK_SIZE];

@@ -15,7 +15,7 @@ static inline void	xor_blocks(t_byte a[DES_BLOCK_SIZE], t_byte b[DES_BLOCK_SIZE]
 
 void				des_cfb_encryption_iteration
 (
-	uint64_t keys[16],
+	uint64_t *keys,
 	t_byte block[DES_BLOCK_SIZE],
 	t_byte vector[DES_BLOCK_SIZE],
 	t_des_core core
@@ -28,7 +28,7 @@ void				des_cfb_encryption_iteration
 
 void				des_cfb_decryption_iteration
 (
-	uint64_t keys[16],
+	uint64_t *keys,
 	t_byte block[DES_BLOCK_SIZE],
 	t_byte vector[DES_BLOCK_SIZE],
 	t_des_core core

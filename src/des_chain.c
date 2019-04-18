@@ -1,4 +1,5 @@
 #include "des.h"
+#include "ssl_error.h"
 #include "libft.h"
 #include "utils.h"
 #include <unistd.h>
@@ -35,24 +36,24 @@ static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *params)
 	bytes_to_big_endian_dwords(&key1, params->key, DES_KEY_LENGTH);
 	if (params->des3 == FALSE)
 	{
-		if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+		if (ctx->encode || params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
 			des_key_schedule(key1, ctx->subkeys, TRUE);
 		else
-			des_key_schedule(key1, ctx->subkeys, ctx->encode);
+			des_key_schedule(key1, ctx->subkeys, FALSE);
 		return;
 	}
 	bytes_to_big_endian_dwords(&key2, params->key + 8, DES_KEY_LENGTH);
 	bytes_to_big_endian_dwords(&key3, params->key + 16, DES_KEY_LENGTH);
-	if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+	if (ctx->encode || params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
 	{
 		des_key_schedule(key1, ctx->subkeys, TRUE);
-		des_key_schedule(key2, ctx->subkeys + 16, TRUE);
+		des_key_schedule(key2, ctx->subkeys + 16, FALSE);
 		des_key_schedule(key3, ctx->subkeys + 32, TRUE);
 		return;
 	}
-	des_key_schedule(key1, ctx->subkeys, ctx->encode ? 1 : 0);
-	des_key_schedule(key2, ctx->subkeys + 16, ctx->encode ? 0 : 1);
-	des_key_schedule(key3, ctx->subkeys + 32, ctx->encode ? 1 : 0);
+	des_key_schedule(key1, ctx->subkeys + 32, FALSE);
+	des_key_schedule(key2, ctx->subkeys + 16, TRUE);
+	des_key_schedule(key3, ctx->subkeys, FALSE);
 }
 
 static void	des_init
@@ -69,6 +70,10 @@ static void	des_init
 	ft_memcpy(ctx->vector, params->iv, DES_IV_LENGTH);
 	ctx->iter = g_modes_iter[params->mode][ctx->encode ? 0 : 1];
 	ctx->core = params->des3 ? des3_core : des_core;
+	if (params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+		ctx->require_padding = FALSE;
+	else
+		ctx->require_padding = TRUE;
 }
 
 static void	des_update(t_des_ctx *ctx, t_byte *input, uint32_t input_len)
@@ -105,6 +110,8 @@ static void	des_final(t_des_ctx *ctx)
 			write(ctx->out, ctx->block, DES_BLOCK_SIZE);
 			ctx->last_block_size = 0;
 		}
+		if (!ctx->require_padding)
+			return;
 		des_add_padding(ctx->last_block_size, ctx->block);
 		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE);
@@ -112,9 +119,14 @@ static void	des_final(t_des_ctx *ctx)
 	else
 	{
 		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
-		if (ctx->block[DES_BLOCK_SIZE - 1] < 1 || ctx->block[DES_BLOCK_SIZE - 1] > 8)
-			ft_printf("Wrong padding\n");
-		write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[DES_BLOCK_SIZE - 1]);
+		if (!ctx->require_padding)
+			write(ctx->out, ctx->block, ctx->last_block_size);
+		else
+		{
+			if (ctx->block[DES_BLOCK_SIZE - 1] < 1 || ctx->block[DES_BLOCK_SIZE - 1] > 8)
+				ssl_error("Wrong padding\n");
+			write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[DES_BLOCK_SIZE - 1]);
+		}
 	}
 }
 
