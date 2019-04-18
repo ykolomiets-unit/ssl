@@ -1,4 +1,4 @@
-#include "des_cbc_iteration.h"
+#include "des.h"
 #include "libft.h"
 
 static inline void	xor_blocks(t_byte a[DES_BLOCK_SIZE], t_byte b[DES_BLOCK_SIZE], t_byte res[DES_BLOCK_SIZE])

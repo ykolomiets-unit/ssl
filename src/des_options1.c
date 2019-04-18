@@ -20,16 +20,8 @@ static t_des_option_handler	g_option_handlers[] = {
 
 void						des_set_default_options(t_des_options *options)
 {
-	options->base64 = FALSE;
-	options->decode = FALSE;
-	options->encode = FALSE;
-	options->initial_vector_present = FALSE;
-	options->key_present = FALSE;
-	options->salt_present = FALSE;
-	options->input_file = 0;
+	ft_bzero(options, sizeof(t_des_options));
 	options->output_file = 1;
-	options->password_present = FALSE;
-	options->use_pbkdf2 = FALSE;
 }
 
 void						des_parse_options

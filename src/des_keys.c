@@ -61,7 +61,7 @@ static uint64_t	apply_pc2(uint64_t c, uint64_t d)
 	return (res);
 }
 
-void	des_key_schedule(uint64_t key, uint64_t subkeys[16], int mode)
+void	des_key_schedule(uint64_t key, uint64_t subkeys[16], t_bool encode)
 {
 	uint32_t	c;
 	uint32_t	d;
@@ -79,7 +79,7 @@ void	des_key_schedule(uint64_t key, uint64_t subkeys[16], int mode)
 		subkeys[i - 1] = apply_pc2(c, d);
 		i++;
 	}
-	if (mode == DECODE) {
+	if (!encode) {
 		i = -1;
 		while (++i < 8) {
 			temp = subkeys[i];

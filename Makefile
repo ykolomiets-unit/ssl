@@ -21,7 +21,6 @@ HEADERS :=				ft_ssl.h						\
 						pbkdf2.h						\
 						des.h							\
 						des_options.h					\
-						des_cbc_iteration.h				\
 
 HEADERS_DEP :=			$(addprefix $(INC_DIR)/, $(HEADERS))
 
@@ -65,11 +64,11 @@ SRCS :=					ssl_error.c						\
 						des_password.c					\
 						des_salt.c						\
 						des_print_ksi.c					\
-						des_ecb.c						\
-						des_ecb_handler.c				\
-						des_cbc.c						\
+						des_handlers.c					\
+						des_common_handler.c			\
+						des_chain.c						\
 						des_cbc_iteration.c				\
-						des_cbc_handler.c				\
+						des_ecb_iteration.c				\
 
 MAIN :=					main.c
 

@@ -2,6 +2,7 @@
 #include "des_options.h"
 #include "libft.h"
 #include "ft_ssl.h"
+#include "ssl_error.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -23,8 +24,10 @@ static void	derive_from_password(t_des_options *options)
 	options->salt_present = TRUE;
 }
 
-static void	encode(t_des_options *options)
+static void	encode(t_des_options *options, t_des_chainmode mode)
 {
+	t_des_chain_params	params;
+
 	if (options->base64)
 		initialize_base64_write_pipe(options);
 	if (options->key_present == FALSE)
@@ -36,11 +39,19 @@ static void	encode(t_des_options *options)
 	}
 	else if (options->print_ksi == TRUE)
 		des_print_ksi(options);
-	des_ecb_encode(options->key, options->input_file, options->output_file);
+	params.key = options->key;
+	params.iv = options->initial_vector;
+	params.in = options->input_file;
+	params.out = options->output_file;
+	params.encode = TRUE;
+	params.mode = mode;
+	des_chain(&params);
 }
 
-static void	decode(t_des_options *options)
+static void	decode(t_des_options *options, t_des_chainmode mode)
 {
+	t_des_chain_params	params;
+
 	if (options->base64)
 		initialize_base64_read_pipe(options);
 	if (options->key_present == FALSE)
@@ -51,22 +62,36 @@ static void	decode(t_des_options *options)
 	}
 	if (options->print_ksi == TRUE)
 		des_print_ksi(options);
-	des_ecb_decode(options->key, options->input_file, options->output_file);
+	params.key = options->key;
+	params.iv = options->initial_vector;
+	params.in = options->input_file;
+	params.out = options->output_file;
+	params.encode = FALSE;
+	params.mode = mode;
+	des_chain(&params);
 }
 
-void		des_ecb_handler(t_ssl *ssl)
+void		des_handler(int argc, char **argv, t_des_chainmode mode)
 {
-	t_des_options		options;
+	t_des_options	options;
 
 	des_set_default_options(&options);
-	des_parse_options(&options, ssl->argc, ssl->argv);
+	des_parse_options(&options, argc, argv);
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;
+	if (mode != DES_MODE_ECB &&
+		(
+			(options.key_present && !options.initial_vector_present) ||
+			(!options.key_present && options.initial_vector_present)
+		))
+	{
+		ft_dprintf(2, "In %s-mode key and iv must be presented\n", g_mode_name[mode]);
+		exit(-1);
+	}
 	if (options.password_present == FALSE && options.key_present == FALSE)
 		des_get_password_from_stdin(&options);
 	if (options.encode)
-		encode(&options);
+		encode(&options, mode);
 	else
-		decode(&options);
+		decode(&options, mode);
 }
-
