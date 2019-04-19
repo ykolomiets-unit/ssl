@@ -92,7 +92,8 @@ int	des_output_option_handler
 		ft_dprintf(2, "No filename after -o\n");
 		return (-1);
 	}
-	options->output_file = open(argv[pos + 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	options->output_file = open(argv[pos + 1],
+		O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (options->output_file < 0)
 	{
 		ft_dprintf(2, "Unable to create '%s': ", argv[pos + 1]);

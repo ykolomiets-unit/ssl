@@ -15,7 +15,7 @@
 
 # include "types.h"
 
-# define MOVE_BIT(n, s, e) ((((n) & (0x1L << (64 - s))) >> (64 - s)) << (64 - e))
+# define MOVEBIT(n, s, e) ((((n) & (0x1L << (64 - s))) >> (64 - s)) << (64 - e))
 # define ROL28(a, n) ((((a) << (n)) | ((a) >> (28 - (n)))) & 0x0FFFFFFF)
 
 # define DES_BLOCK_SIZE 8
@@ -144,6 +144,7 @@ void				des_ofb_decryption_iteration(uint64_t *keys, t_byte *b,
 						t_byte vec[DES_BLOCK_SIZE], t_des_core core);
 
 void				des_chain(t_des_chain_params *params);
-void				des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3);
+void				des_handler(int argc, char **argv, t_des_chainmode mode,
+						t_bool des3);
 
 #endif

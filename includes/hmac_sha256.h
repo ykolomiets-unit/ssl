@@ -27,6 +27,7 @@ typedef struct	s_hmac_params
   uint32_t		message_length;
 }        		t_hmac_params;
 
-void			hmac_sha256(t_hmac_params, t_byte result[HMAC_SHA256_OUTPUT_LEN]);
+void			hmac_sha256(t_hmac_params,
+					t_byte result[HMAC_SHA256_OUTPUT_LEN]);
 
 #endif

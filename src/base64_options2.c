@@ -2,7 +2,8 @@
 #include "libft.h"
 #include <fcntl.h>
 
-int	b64_decode_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+int	b64_decode_option_handler(int pos, int argc, char **argv,
+								t_base64_options *options)
 {
 	(void)pos;
 	(void)argc;
@@ -16,7 +17,8 @@ int	b64_decode_option_handler(int pos, int argc, char **argv, t_base64_options *
 	return (1);
 }
 
-int	b64_encode_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+int	b64_encode_option_handler(int pos, int argc, char **argv,
+								t_base64_options *options)
 {
 	(void)pos;
 	(void)argc;
@@ -30,7 +32,8 @@ int	b64_encode_option_handler(int pos, int argc, char **argv, t_base64_options *
 	return (1);
 }
 
-int	b64_input_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+int	b64_input_option_handler(int pos, int argc, char **argv,
+								t_base64_options *options)
 {
 	if (pos + 1 >= argc)
 	{
@@ -46,14 +49,16 @@ int	b64_input_option_handler(int pos, int argc, char **argv, t_base64_options *o
 	return (2);
 }
 
-int	b64_output_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+int	b64_output_option_handler(int pos, int argc, char **argv,
+								t_base64_options *options)
 {
 	if (pos + 1 >= argc)
 	{
 		ft_dprintf(2, "No filename after -o\n");
 		return (-1);
 	}
-	options->output_file = open(argv[pos + 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	options->output_file = open(argv[pos + 1],
+									O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (options->output_file < 0)
 	{
 		ft_dprintf(2, "Unable to create '%s': ", argv[pos + 1]);
@@ -62,7 +67,8 @@ int	b64_output_option_handler(int pos, int argc, char **argv, t_base64_options *
 	return (2);
 }
 
-int	b64_break_option_handler(int pos, int argc, char **argv, t_base64_options *options)
+int	b64_break_option_handler(int pos, int argc, char **argv,
+								t_base64_options *options)
 {
 	if (pos + 1 >= argc)
 	{

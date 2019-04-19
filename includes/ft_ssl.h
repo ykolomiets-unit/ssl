@@ -41,7 +41,7 @@ typedef struct	s_digest_flags
 {
 	t_bool		quite_mode;
 	t_bool		reverse_mode;
-}				        t_digest_flags;
+}		        t_digest_flags;
 
 typedef struct	s_digest_help
 {

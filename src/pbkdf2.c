@@ -16,11 +16,13 @@ static t_byte	*allocate(t_byte *salt, uint32_t salt_length, uint32_t block_num)
 		exit(1);
 	}
 	ft_memcpy(salt_and_block_num, salt, salt_length);
-	big_endian_words_to_bytes(&block_num, salt_and_block_num + salt_length, sizeof(block_num));
+	big_endian_words_to_bytes(&block_num, salt_and_block_num + salt_length,
+								sizeof(block_num));
 	return (salt_and_block_num);
 }
 
-static void		xor_blocks(t_byte b1[HMAC_SHA256_OUTPUT_LEN], t_byte b2[HMAC_SHA256_OUTPUT_LEN])
+static void		xor_blocks(t_byte b1[HMAC_SHA256_OUTPUT_LEN],
+					t_byte b2[HMAC_SHA256_OUTPUT_LEN])
 {
 	uint32_t	i;
 
@@ -32,7 +34,8 @@ static void		xor_blocks(t_byte b1[HMAC_SHA256_OUTPUT_LEN], t_byte b2[HMAC_SHA256
 	}
 }
 
-static	void f(t_pbkdf2_params params, uint32_t block_num, t_byte block[HMAC_SHA256_OUTPUT_LEN])
+static void		f(t_pbkdf2_params params, uint32_t block_num,
+					t_byte block[HMAC_SHA256_OUTPUT_LEN])
 {
 	t_byte			*salt_and_block_num;
 	t_byte			temp_block[HMAC_SHA256_OUTPUT_LEN];
@@ -58,7 +61,7 @@ static	void f(t_pbkdf2_params params, uint32_t block_num, t_byte block[HMAC_SHA2
 	free(salt_and_block_num);
 }
 
-void	pbkdf2(t_pbkdf2_params params, t_byte *dk, uint32_t dk_len)
+void			pbkdf2(t_pbkdf2_params params, t_byte *dk, uint32_t dk_len)
 {
 	uint32_t	l;
 	uint32_t	r;
@@ -71,7 +74,8 @@ void	pbkdf2(t_pbkdf2_params params, t_byte *dk, uint32_t dk_len)
 	while (i < l)
 	{
 		f(params, i + 1, block);
-		ft_memcpy(dk + i * HMAC_SHA256_OUTPUT_LEN, block, HMAC_SHA256_OUTPUT_LEN);
+		ft_memcpy(dk + i * HMAC_SHA256_OUTPUT_LEN, block,
+					HMAC_SHA256_OUTPUT_LEN);
 		i++;
 	}
 	if (r)

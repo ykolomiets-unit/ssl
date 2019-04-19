@@ -37,7 +37,7 @@ static uint64_t	apply_pc1(uint64_t key)
 	i = 1;
 	while (i <= 56)
 	{
-		res |= MOVE_BIT(key, g_pc1[i - 1], i); 
+		res |= MOVEBIT(key, g_pc1[i - 1], i); 
 		i++;
 	}
 	return (res);
@@ -54,7 +54,7 @@ static uint64_t	apply_pc2(uint64_t c, uint64_t d)
 	i = 1;
 	while (i <= 48)
 	{
-		uint64_t t = MOVE_BIT(temp, g_pc2[i - 1], i);
+		uint64_t t = MOVEBIT(temp, g_pc2[i - 1], i);
 		res |= t;
 		i++;
 	}

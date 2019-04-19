@@ -27,24 +27,24 @@ static t_des_iter	g_modes_iter[DES_MODES_COUNT][2] = {
 	}
 };
 
-static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *params)
+static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *p)
 {
 	uint64_t	key1;
 	uint64_t	key2;
 	uint64_t	key3;
 
-	bytes_to_big_endian_dwords(&key1, params->key, DES_KEY_LENGTH);
-	if (params->des3 == FALSE)
+	bytes_to_big_endian_dwords(&key1, p->key, DES_KEY_LENGTH);
+	if (p->des3 == FALSE)
 	{
-		if (ctx->encode || params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+		if (ctx->encode || p->mode == DES_MODE_CFB || p->mode == DES_MODE_OFB)
 			des_key_schedule(key1, ctx->subkeys, TRUE);
 		else
 			des_key_schedule(key1, ctx->subkeys, FALSE);
 		return;
 	}
-	bytes_to_big_endian_dwords(&key2, params->key + 8, DES_KEY_LENGTH);
-	bytes_to_big_endian_dwords(&key3, params->key + 16, DES_KEY_LENGTH);
-	if (ctx->encode || params->mode == DES_MODE_CFB || params->mode == DES_MODE_OFB)
+	bytes_to_big_endian_dwords(&key2, p->key + 8, DES_KEY_LENGTH);
+	bytes_to_big_endian_dwords(&key3, p->key + 16, DES_KEY_LENGTH);
+	if (ctx->encode || p->mode == DES_MODE_CFB || p->mode == DES_MODE_OFB)
 	{
 		des_key_schedule(key1, ctx->subkeys, TRUE);
 		des_key_schedule(key2, ctx->subkeys + 16, FALSE);
@@ -82,7 +82,8 @@ static void	des_update(t_des_ctx *ctx, t_byte *input, uint32_t input_len)
 	uint32_t	start_pos;
 
 	current_pos = 0;
-	if (ctx->last_block_size > 0 && (input_len > DES_BLOCK_SIZE - ctx->last_block_size))
+	if (ctx->last_block_size > 0 &&
+		(input_len > DES_BLOCK_SIZE - ctx->last_block_size))
 	{
 		ft_memcpy(ctx->block, input, DES_BLOCK_SIZE - ctx->last_block_size);
 		current_pos = DES_BLOCK_SIZE - ctx->last_block_size;
@@ -115,18 +116,16 @@ static void	des_final(t_des_ctx *ctx)
 		des_add_padding(ctx->last_block_size, ctx->block);
 		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE);
+		return;
 	}
+	ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
+	if (!ctx->require_padding)
+		write(ctx->out, ctx->block, ctx->last_block_size);
 	else
 	{
-		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
-		if (!ctx->require_padding)
-			write(ctx->out, ctx->block, ctx->last_block_size);
-		else
-		{
-			if (ctx->block[DES_BLOCK_SIZE - 1] < 1 || ctx->block[DES_BLOCK_SIZE - 1] > 8)
-				ssl_error("Wrong padding\n");
-			write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[DES_BLOCK_SIZE - 1]);
-		}
+		if (ctx->block[7] < 1 || ctx->block[7] > 8)
+			ssl_error("Wrong padding\n");
+		write(ctx->out, ctx->block, DES_BLOCK_SIZE - ctx->block[7]);
 	}
 }
 

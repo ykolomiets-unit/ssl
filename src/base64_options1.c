@@ -43,27 +43,27 @@ void						base64_parse_options
 )
 {
 	int						i;
-	t_b64_option_handler	*option_handler;
-	int						parse_res;
+	t_b64_option_handler	*opt;
+	int						r;
 	
 	i = 0;
 	while (i < argc)
 	{
-		option_handler = g_option_handlers;
-		while (option_handler->option != NULL)
-			if (ft_strcmp(option_handler->option, argv[i]) == 0)
+		opt = g_option_handlers;
+		while (opt->option != NULL)
+			if (ft_strcmp(opt->option, argv[i]) == 0)
 			{
-				if ((parse_res = option_handler->handler(i, argc, argv, options)) < 0)
-					exit(parse_res);
-				i += parse_res;
+				if ((r = opt->handler(i, argc, argv, options)) < 0)
+					exit(r);
+				i += r;
 				break;
 			}
 			else
-				option_handler++;
-		if (option_handler->option == NULL)
+				opt++;
+		if (opt->option == NULL)
 		{
-			if ((parse_res = b64_input_option_handler(i - 1, argc, argv, options)) < 0)
-				exit(parse_res);
+			if ((r = b64_input_option_handler(i - 1, argc, argv, options)) < 0)
+				exit(r);
 			break;
 		}
 	}

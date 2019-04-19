@@ -90,7 +90,8 @@ void		des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3)
 			(!options.key_present && options.initial_vector_present)
 		))
 	{
-		ft_dprintf(2, "In %s-mode key and iv must be presented\n", g_mode_name[mode]);
+		ft_dprintf(2, "In %s-mode key and iv must be presented\n",
+			g_mode_name[mode]);
 		exit(-1);
 	}
 	if (options.password_present == FALSE && options.key_present == FALSE)

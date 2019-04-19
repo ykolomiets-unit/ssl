@@ -117,7 +117,8 @@ int				des_iv_option_handler
 		return (-1);
 	}
 	options->initial_vector_present = TRUE;
-	parse_res = parse_hex(argv[pos + 1], options->initial_vector, DES_IV_LENGTH);
+	parse_res = parse_hex(argv[pos + 1], options->initial_vector,
+							DES_IV_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse initial vector\n");
 	else if (parse_res == -2)

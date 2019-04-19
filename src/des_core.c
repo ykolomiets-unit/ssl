@@ -197,7 +197,7 @@ static uint64_t		apply_ip(uint64_t m)
 	i = 1;
 	while (i <= 64)
 	{
-		res |= MOVE_BIT(m, g_ip[i - 1], i);
+		res |= MOVEBIT(m, g_ip[i - 1], i);
 		i++;
 	}
 	return (res);
@@ -212,7 +212,7 @@ static  uint64_t	expand(uint64_t m)
 	i = 1;
 	while (i <= 48)
 	{
-		res |= MOVE_BIT(m, g_expansion[i - 1], i);
+		res |= MOVEBIT(m, g_expansion[i - 1], i);
 		i++;
 	}
 	return (res);
@@ -244,13 +244,14 @@ static uint64_t	apply_fp(uint64_t m)
 	i = 1;
 	while (i <= 64)
 	{
-		res |= MOVE_BIT(m, g_fp[i - 1], i);
+		res |= MOVEBIT(m, g_fp[i - 1], i);
 		i++;
 	}
 	return (res);
 }
 
-void	des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE], t_byte output[DES_BLOCK_SIZE])
+void	des_core(uint64_t keys[16], t_byte input[DES_BLOCK_SIZE],
+					t_byte output[DES_BLOCK_SIZE])
 {
 	uint64_t	m;
 	uint64_t	left;

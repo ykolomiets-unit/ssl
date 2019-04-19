@@ -1,7 +1,7 @@
 #include "des.h"
 #include "libft.h"
 
-static inline void	xor_blocks(t_byte a[DES_BLOCK_SIZE], t_byte b[DES_BLOCK_SIZE], t_byte res[DES_BLOCK_SIZE])
+static inline void	xor_blocks(t_byte *a, t_byte *b, t_byte *res)
 {
 	uint32_t	i;
 

@@ -36,7 +36,8 @@ void		base64_handler(t_ssl *ssl)
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;
 	if (options.encode == TRUE)
-		base64_encode_file_to_file(options.input_file, options.output_file, options.break_num);
+		base64_encode_file_to_file(options.input_file,
+			options.output_file, options.break_num);
 	else
 		base64_decode_file_to_file(options.input_file, options.output_file);
 }
