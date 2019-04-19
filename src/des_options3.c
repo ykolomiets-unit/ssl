@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 16:39:07 by ykolomie          #+#    #+#             */
-/*   Updated: 2019/04/19 17:58:07 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:40:21 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int				des_key_option_handler
 		return (-1);
 	}
 	options->key_present = TRUE;
-	parse_res = parse_hex(argv[pos + 1], options->key, 3 * DES_KEY_LENGTH);
+	parse_res = parse_hex(argv[pos + 1], options->key,
+			options->des3 ? 3 * DES_KEY_LENGTH : DES_KEY_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse key\n");
 	else if (parse_res == 2)
