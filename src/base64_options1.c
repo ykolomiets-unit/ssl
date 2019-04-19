@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 16:46:59 by ykolomie          #+#    #+#             */
-/*   Updated: 2019/04/19 16:47:02 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 18:57:57 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ static t_b64_option_handler	g_option_handlers[] = {
 	{ NULL, NULL}
 };
 
+static t_b64_optparser		select_option(const char *str)
+{
+	t_b64_option_handler	*opt;
+
+	opt = g_option_handlers;
+	while (opt->option != NULL)
+	{
+		if (ft_strcmp(opt->option, str) == 0)
+			return (opt->handler);
+		opt++;
+	}
+	return (NULL);
+}
+
 void						base64_parse_options
 (
 	t_base64_options *options,
@@ -55,26 +69,23 @@ void						base64_parse_options
 )
 {
 	int						i;
-	t_b64_option_handler	*opt;
 	int						r;
+	t_b64_optparser			opt;
 
 	i = 0;
 	while (i < argc)
 	{
-		opt = g_option_handlers;
-		while (opt->option != NULL)
-			if (ft_strcmp(opt->option, argv[i]) == 0)
-			{
-				if ((r = opt->handler(i, argc, argv, options)) < 0)
-					exit(r);
-				i += r;
-				break ;
-			}
-			else
-				opt++;
-		if (opt->option == NULL)
+		opt = select_option(argv[i]);
+		if (opt != NULL)
 		{
-			if ((r = b64_input_option_handler(i - 1, argc, argv, options)) < 0)
+			if ((r = opt(i, argc, argv, options)) < 0)
+				exit(r);
+			i += r;
+		}
+		else
+		{
+			if (options->input_file == 0 &&
+				(r = b64_input_option_handler(i - 1, argc, argv, options)) < 0)
 				exit(r);
 			break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 16:45:33 by ykolomie          #+#    #+#             */
-/*   Updated: 2019/04/19 16:45:34 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:03:43 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	b64_input_option_handler(int pos, int argc, char **argv,
 	options->input_file = open(argv[pos + 1], O_RDONLY);
 	if (options->input_file < 0)
 	{
-		ft_dprintf(2, "Unable to open '%s': ", argv[pos + 1]);
+		ft_dprintf(2, "Unable to open '%s'\n", argv[pos + 1]);
 		return (-1);
 	}
 	return (2);
@@ -73,7 +73,7 @@ int	b64_output_option_handler(int pos, int argc, char **argv,
 									O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (options->output_file < 0)
 	{
-		ft_dprintf(2, "Unable to create '%s': ", argv[pos + 1]);
+		ft_dprintf(2, "Unable to create '%s'\n", argv[pos + 1]);
 		return (-1);
 	}
 	return (2);
