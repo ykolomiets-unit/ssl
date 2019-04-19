@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 16:39:07 by ykolomie          #+#    #+#             */
-/*   Updated: 2019/04/19 16:39:11 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 17:58:07 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int		parse_hex(char *str, t_byte *res, uint32_t res_size)
 		str++;
 	}
 	if (*str)
-		return (-2);
+		return (2);
 	if (i < res_size * 2)
 		return (1);
 	return (0);
@@ -71,8 +71,8 @@ int				des_key_option_handler
 	parse_res = parse_hex(argv[pos + 1], options->key, 3 * DES_KEY_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse key\n");
-	else if (parse_res == -2)
-		ft_dprintf(2, "Key is too long\n");
+	else if (parse_res == 2)
+		ft_dprintf(2, "Key is too long, remainder truncated\n");
 	else if (parse_res == 1)
 		ft_dprintf(2, "Key was filled with 0 in the end\n");
 	if (parse_res < 0)
@@ -99,8 +99,8 @@ int				des_salt_option_handler
 	parse_res = parse_hex(argv[pos + 1], options->salt, DES_SALT_LENGTH);
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse salt\n");
-	else if (parse_res == -2)
-		ft_dprintf(2, "Salt is too long\n");
+	else if (parse_res == 2)
+		ft_dprintf(2, "Salt is too long, remainder truncated\n");
 	else if (parse_res == 1)
 		ft_dprintf(2, "Salt was filled with 0 in the end\n");
 	if (parse_res < 0)
@@ -134,7 +134,7 @@ int				des_iv_option_handler
 	if (parse_res == -1)
 		ft_dprintf(2, "Cannot parse initial vector\n");
 	else if (parse_res == -2)
-		ft_dprintf(2, "Initial vector is too long\n");
+		ft_dprintf(2, "Initial vector is too long, remainder truncated\n");
 	else if (parse_res == 1)
 		ft_dprintf(2, "Initial vector was filled with 0 in the end\n");
 	if (parse_res < 0)

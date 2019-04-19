@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 15:53:23 by ykolomie          #+#    #+#             */
-/*   Updated: 2019/04/19 15:55:28 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 17:25:16 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ static void		f(t_pbkdf2_params params, uint32_t block_num,
 	hmac_params.key_length = params.password_length;
 	hmac_params.message = salt_and_block_num;
 	hmac_params.message_length = params.salt_length + sizeof(block_num);
-	hmac_sha256(hmac_params, block);
+	hmac_sha256(&hmac_params, block);
 	ft_memcpy(temp_block, block, HMAC_SHA256_OUTPUT_LEN);
 	hmac_params.message = temp_block;
 	hmac_params.message_length = HMAC_SHA256_OUTPUT_LEN;
 	i = 1;
 	while (i < params.iteration_count)
 	{
-		hmac_sha256(hmac_params, temp_block);
+		hmac_sha256(&hmac_params, temp_block);
 		xor_blocks(block, temp_block);
 		i++;
 	}
