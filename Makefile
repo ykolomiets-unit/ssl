@@ -97,8 +97,8 @@ TEST_OBJS :=			$(addprefix $(TEST_OBJ_DIR)/, $(TEST_SRCS:.c=.o))
 
 CC :=					clang
 
-CC_FLAGS :=				-Wall -Wextra -Werror -g -O0
-TEST_CC_FLAGS :=		-Wall -Wextra -g -O0
+CC_FLAGS :=				-Wall -Wextra -Werror
+TEST_CC_FLAGS :=		-Wall -Wextra
 
 INC_FLAGS :=			$(addprefix -I, $(INC_DIR) $(LIBFT_INC))
 
