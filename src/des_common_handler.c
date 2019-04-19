@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_common_handler.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:27:45 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:27:48 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "des_options.h"
 #include "libft.h"
@@ -74,7 +86,8 @@ static void	decode(t_des_options *options, t_des_chainmode mode, t_bool des3)
 	des_chain(&params);
 }
 
-void		des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3)
+void		des_handler(int argc, char **argv, t_des_chainmode mode,
+							t_bool des3)
 {
 	t_des_options	options;
 
@@ -85,10 +98,8 @@ void		des_handler(int argc, char **argv, t_des_chainmode mode, t_bool des3)
 	if (options.encode == FALSE && options.decode == FALSE)
 		options.encode = TRUE;
 	if (mode != DES_MODE_ECB &&
-		(
-			(options.key_present && !options.initial_vector_present) ||
-			(!options.key_present && options.initial_vector_present)
-		))
+			((options.key_present && !options.initial_vector_present) ||
+			(!options.key_present && options.initial_vector_present)))
 	{
 		ft_dprintf(2, "In %s-mode key and iv must be presented\n",
 			g_mode_name[mode]);

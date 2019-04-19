@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 16:39:42 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/26 16:40:59 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 16:53:58 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #define B64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
-uint32_t	base64_encode
+uint32_t	b64_encode
 (
 	t_byte in[DECODED_SIZE],
 	uint32_t in_size,
@@ -49,7 +49,7 @@ uint32_t	base64_encode
 	return (out_pos);
 }
 
-static void			base64_write(int fd, t_byte *buffer, t_base64_write *help)
+static void	base64_write(int fd, t_byte *buffer, t_base64_write *help)
 {
 	int			last_line_length;
 	int			pos;
@@ -77,15 +77,14 @@ static void			base64_write(int fd, t_byte *buffer, t_base64_write *help)
 	help->total += help->write;
 }
 
-
 void		base64_encode_file_to_file
 (
 	int input,
 	int output,
-	int	bnum
+	int bnum
 )
 {
-	int r;
+	int				r;
 	uint32_t		in_buf;
 	t_base64_write	help;
 	t_byte			input_buffer[DECODED_SIZE];
@@ -100,14 +99,14 @@ void		base64_encode_file_to_file
 		in_buf += r;
 		if (in_buf == DECODED_SIZE)
 		{
-			help.write = base64_encode(input_buffer, DECODED_SIZE, output_buffer);
+			help.write = b64_encode(input_buffer, DECODED_SIZE, output_buffer);
 			base64_write(output, output_buffer, &help);
 			in_buf = 0;
 		}
 	}
 	if (in_buf)
 	{
-		help.write = base64_encode(input_buffer, in_buf, output_buffer);
+		help.write = b64_encode(input_buffer, in_buf, output_buffer);
 		base64_write(output, output_buffer, &help);
 	}
 }

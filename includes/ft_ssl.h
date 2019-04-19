@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 15:37:14 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:37:16 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 16:51:37 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_digest_flags
 {
 	t_bool		quite_mode;
 	t_bool		reverse_mode;
-}		        t_digest_flags;
+}				t_digest_flags;
 
 typedef struct	s_digest_help
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_options3.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:39:07 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:39:11 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des_options.h"
 #include "libft.h"
 
@@ -5,10 +17,10 @@ static t_byte	get_4bits_value(char c)
 {
 	if (c >= '0' && c <= '9')
 		return (c - '0');
-	else if (c >= 'a' && c <='f')
+	else if (c >= 'a' && c <= 'f')
 		return (c - 'a' + 10);
-	else if (c >= 'A' && c <='F')
-		return (c - 'A' + 10);    
+	else if (c >= 'A' && c <= 'F')
+		return (c - 'A' + 10);
 	return (0xff);
 }
 

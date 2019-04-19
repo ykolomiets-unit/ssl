@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_print_ksi.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:41:11 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:41:13 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "libft.h"
 
@@ -13,7 +25,7 @@ static void	print_hex(t_byte *bytes, uint32_t len)
 	}
 }
 
-void	des_print_ksi(t_des_options *options)
+void		des_print_ksi(t_des_options *options)
 {
 	if (options->password_present)
 	{

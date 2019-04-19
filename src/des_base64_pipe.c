@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_base64_pipe.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:23:43 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:23:45 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "libft.h"
 #include "base64.h"
@@ -10,7 +22,7 @@ void		initialize_base64_write_pipe(t_des_options *options)
 	int		fd[2];
 	pid_t	p;
 
-	if(pipe(fd) == -1)
+	if (pipe(fd) == -1)
 		ssl_error("Pipe failed\n");
 	p = fork();
 	if (p < 0)

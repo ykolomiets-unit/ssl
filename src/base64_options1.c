@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   base64_options1.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:46:59 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:47:02 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "base64_options.h"
 #include "libft.h"
 #include "ssl_error.h"
@@ -45,7 +57,7 @@ void						base64_parse_options
 	int						i;
 	t_b64_option_handler	*opt;
 	int						r;
-	
+
 	i = 0;
 	while (i < argc)
 	{
@@ -56,7 +68,7 @@ void						base64_parse_options
 				if ((r = opt->handler(i, argc, argv, options)) < 0)
 					exit(r);
 				i += r;
-				break;
+				break ;
 			}
 			else
 				opt++;
@@ -64,7 +76,7 @@ void						base64_parse_options
 		{
 			if ((r = b64_input_option_handler(i - 1, argc, argv, options)) < 0)
 				exit(r);
-			break;
+			break ;
 		}
 	}
 }

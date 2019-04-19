@@ -6,7 +6,7 @@
 /*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 20:52:43 by ykolomie          #+#    #+#             */
-/*   Updated: 2018/10/21 20:52:44 by ykolomie         ###   ########.fr       */
+/*   Updated: 2019/04/19 15:56:31 by ykolomie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static const t_command_handler	g_digest_commands[] = {
 
 static const t_command_handler	g_cipher_commands[] = {
 	{"base64", base64_handler},
-	{"des",	des_cbc_handler},
+	{"des", des_cbc_handler},
 	{"des-ecb", des_ecb_handler},
 	{"des-cbc", des_cbc_handler},
 	{"des-pcbc", des_pcbc_handler},

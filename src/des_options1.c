@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_options1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:36:45 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:36:48 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des_options.h"
 #include "libft.h"
 #include <stdlib.h>
@@ -34,7 +46,7 @@ void						des_parse_options
 	int						i;
 	t_des_option_handler	*option_handler;
 	int						parse_res;
-	
+
 	i = 0;
 	while (i < argc)
 	{
@@ -46,7 +58,7 @@ void						des_parse_options
 				if (parse_res < 0)
 					exit(parse_res);
 				i += parse_res;
-				break;
+				break ;
 			}
 			else
 				option_handler++;

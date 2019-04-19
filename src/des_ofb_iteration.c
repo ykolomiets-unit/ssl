@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_ofb_iteration.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:34:57 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:34:59 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "libft.h"
 
@@ -36,4 +48,3 @@ void				des_ofb_decryption_iteration
 	core(keys, vector, vector);
 	xor_blocks(block, vector, block);
 }
-

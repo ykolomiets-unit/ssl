@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_cbc_iteration.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:23:58 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:24:00 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "libft.h"
 
@@ -41,4 +53,3 @@ void				des_cbc_decryption_iteration
 	xor_blocks(block, vector, block);
 	ft_memcpy(vector, temp_vector, DES_BLOCK_SIZE);
 }
-

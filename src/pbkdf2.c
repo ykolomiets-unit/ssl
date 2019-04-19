@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pbkdf2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 15:53:23 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 15:55:28 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pbkdf2.h"
 #include "hmac_sha256.h"
 #include "libft.h"
 #include "utils.h"
 #include <stdlib.h>
 
-static t_byte	*allocate(t_byte *salt, uint32_t salt_length, uint32_t block_num)
+static t_byte	*allocate(t_byte *salt, uint32_t salt_length,
+							uint32_t block_num)
 {
 	t_byte		*salt_and_block_num;
 
 	salt_and_block_num = (t_byte *)malloc(salt_length + sizeof(block_num));
-	
 	if (salt_and_block_num == NULL)
 	{
 		ft_printf("Memory allocation failed");

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_chain.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:25:33 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:25:34 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "ssl_error.h"
 #include "libft.h"
@@ -40,7 +52,7 @@ static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *p)
 			des_key_schedule(key1, ctx->subkeys, TRUE);
 		else
 			des_key_schedule(key1, ctx->subkeys, FALSE);
-		return;
+		return ;
 	}
 	bytes_to_big_endian_dwords(&key2, p->key + 8, DES_KEY_LENGTH);
 	bytes_to_big_endian_dwords(&key3, p->key + 16, DES_KEY_LENGTH);
@@ -49,7 +61,7 @@ static void	set_subkeys(t_des_ctx *ctx, t_des_chain_params *p)
 		des_key_schedule(key1, ctx->subkeys, TRUE);
 		des_key_schedule(key2, ctx->subkeys + 16, FALSE);
 		des_key_schedule(key3, ctx->subkeys + 32, TRUE);
-		return;
+		return ;
 	}
 	des_key_schedule(key1, ctx->subkeys + 32, FALSE);
 	des_key_schedule(key2, ctx->subkeys + 16, TRUE);
@@ -62,7 +74,6 @@ static void	des_init
 	t_des_chain_params *params
 )
 {
-
 	ft_bzero(ctx, sizeof(t_des_ctx));
 	ctx->out = params->out;
 	ctx->encode = params->encode;
@@ -112,11 +123,11 @@ static void	des_final(t_des_ctx *ctx)
 			ctx->last_block_size = 0;
 		}
 		if (!ctx->require_padding)
-			return;
+			return ;
 		des_add_padding(ctx->last_block_size, ctx->block);
 		ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 		write(ctx->out, ctx->block, DES_BLOCK_SIZE);
-		return;
+		return ;
 	}
 	ctx->iter(ctx->subkeys, ctx->block, ctx->vector, ctx->core);
 	if (!ctx->require_padding)

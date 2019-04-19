@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_salt.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:42:47 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:42:49 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "libft.h"
 #include <stdlib.h>
@@ -7,14 +19,14 @@
 int		des_get_salt(t_byte *buf, uint32_t salt_len)
 {
 	uint32_t	pos;
-	int       fd;
-	int       r;
+	int			fd;
+	int			r;
 
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	pos = 0;
-	while (pos < salt_len && (r = read(fd, buf + pos, salt_len - pos)) > 0 )
+	while (pos < salt_len && (r = read(fd, buf + pos, salt_len - pos)) > 0)
 		pos += r;
 	if (pos != salt_len)
 		return (-1);
@@ -27,7 +39,7 @@ void	des_read_salt(t_byte salt[DES_SALT_LENGTH], int fd)
 	int		r;
 	int		in_buf;
 
-	in_buf = 0;	
+	in_buf = 0;
 	while ((r = read(fd, buffer + in_buf, 16 - in_buf)) > 0)
 		in_buf += r;
 	if (r < 0 || in_buf < 16)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_options4.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:39:46 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:39:47 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des_options.h"
 #include "libft.h"
 #include <stdlib.h>
@@ -15,7 +27,6 @@ int	des_password_option_handler
 		ft_dprintf(2, "No password after -p\n");
 		return (-1);
 	}
-
 	if (options->key_present || options->initial_vector_present)
 	{
 		ft_dprintf(2, "Use either key/iv or password\n");
@@ -46,7 +57,7 @@ int	des_pbkdf2_option_handler
 	return (1);
 }
 
-int des_print_ksi_option_handler
+int	des_print_ksi_option_handler
 (
 	int pos,
 	int argc,

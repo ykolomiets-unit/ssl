@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_get_key_and_iv.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykolomie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 16:29:16 by ykolomie          #+#    #+#             */
+/*   Updated: 2019/04/19 16:34:24 by ykolomie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "des.h"
 #include "md5.h"
 #include "pbkdf2.h"
@@ -19,7 +31,7 @@ static void		primitive_kdf(t_pbkdf_params *options)
 static void		apply_pbkdf2(t_pbkdf_params *options)
 {
 	t_pbkdf2_params	params;
-	t_byte					result[3 * DES_KEY_LENGTH + DES_IV_LENGTH];
+	t_byte			result[3 * DES_KEY_LENGTH + DES_IV_LENGTH];
 
 	params.password = (t_byte *)options->password;
 	params.password_length = ft_strlen(options->password);
